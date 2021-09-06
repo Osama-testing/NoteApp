@@ -1,0 +1,37 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+@model NoteApp.Models.ListModel
+<br />
+<button type="button" class="btn btn-secondary" onclick="txtboxShow()">Create List</button>
+<br /><br />
+<div id="myDIV">
+    @using (Html.BeginForm("AddList", "List", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <form>
+            @Html.TextBoxFor(model => model.ListName, new { @class = "form-control", @placeholder = "Enter List Name", @required = "required" })
+            <br />
+            <input type="submit" value="Submit" class="btn btn-success">
+        </form>
+    }
+</div>
+<hr />
+
+
+@{Html.RenderAction("GetLists", "List");}
+<script>
+    $(document).ready(function () {
+        $('#myDIV').hide();
+
+    });
+    function txtboxShow() {
+        var x = document.getElementById("myDIV");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    }
+</script>
+

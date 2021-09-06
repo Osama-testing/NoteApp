@@ -1,0 +1,36 @@
+﻿@using PagedList.Mvc;
+@model IPagedList<NoteApp.Models.ListModel>
+@using PagedList;
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<div class="card-deck ">
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <!-- Display a div of col-sm-3 containing the card up to n number of times, ie in a loop -->
+            <div class="card border-dark mb-3" style="max-width: 26rem;margin-left:16px;">
+                <div class="card-header bg-transparent border-success" style="text-align:center"> @item.ListName</div>
+                <div class="card-body text-success" style="text-align:center">
+                    @*@if (item.ListDescription == null)
+                    {*@
+                    <a href="@Url.Action("testing", "List", new { Id = item.List_Id })" class="btn btn-secondary btn-sm"><img src="https://img.icons8.com/office/16/000000/add--v2.png" />Add Notes </a>
+                   
+                    <a href="@Url.Action("EditList","List", new { id = item.List_Id })" class="btn btn-secondary btn-sm"><img src="https://img.icons8.com/ios-glyphs/16/000000/edit--v2.png" />Edit List</a>
+                    <a href="@Url.Action("DeleteList","List", new { id = item.List_Id })" class="btn btn-secondary btn-sm"onclick="return confirm('Are you sure you to delete this Record?');"><img src="https://img.icons8.com/fluency/16/000000/delete-sign.png" />Delete </a>
+                    <a href="# " class="btn btn-secondary btn-sm"><img src="https://img.icons8.com/ios/16/000000/visible.png" />View List</a>
+                    <p class="card-text"></p>
+                </div>
+                <div class="card-footer bg-transparent border-success" style="text-align:center">
+                    <span class="badge bg-secondary">Date Created: @item.CreatedDate</span>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<div id='Paging' style="text-align:right">
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
+    of @Model.PageCount
+    @Html.PagedListPager(Model, page => Url.Action("", new { page = page }))
+
+
+
+</div>

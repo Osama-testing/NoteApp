@@ -1,7 +1,9 @@
 ﻿@{
     ViewBag.Title = "Index";
 }
-@model NoteApp.Models.ListModel
+@*@model NoteApp.Models.ListModel*@
+@using NoteApp.Models;
+@model ListModel
 <br />
 <button type="button" class="btn btn-secondary" onclick="txtboxShow()">Create List</button>
 <br /><br />
@@ -10,16 +12,18 @@
     {
         @Html.AntiForgeryToken()
         <form>
-            @Html.TextBoxFor(model => model.ListName, new { @class = "form-control", @placeholder = "Enter List Name", @required = "required" })
+            @Html.TextBoxFor(model=> model.ListName, new { @class = "form-control", @placeholder = "Enter List Name", @required = "required" })
             <br />
             <input type="submit" value="Submit" class="btn btn-success">
         </form>
     }
 </div>
-<hr />
+<hr style=" border: 5px solid green; border-radius: 10px;" />
 
-
+@{Html.RenderAction("RecentNotes", "List");}
+<hr  style=" border: 5px solid green; border-radius: 10px;" />
 @{Html.RenderAction("GetLists", "List");}
+
 <script>
     $(document).ready(function () {
         $('#myDIV').hide();

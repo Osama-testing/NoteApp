@@ -12,11 +12,11 @@ namespace NoteApp.Models
     {
         [Key]
         public int TagId { get; set; }
-        public int List_Id { get; set; }    //Foreign key--List Id
+    //    public int NoteId { get; set; }    //Foreign key--Note Id
         public string TagItem { get; set; }
         public bool IsActive { get; set; }
 
-        [ForeignKey("List_Id")]
-        public virtual ListModel List { get; set; }
+        //[ForeignKey("NoteId")]
+        //public virtual NotesModel Notes{ get; set; }
     }
 }

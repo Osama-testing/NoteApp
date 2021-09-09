@@ -1,0 +1,59 @@
+﻿
+@model IEnumerable<NoteApp.Models.NotesModel>
+<style>
+    #audio {
+        display: block;
+        border-radius: 20px;
+        margin: 0 auto;
+    }
+</style>
+<span class="badge rounded-pill bg-dark">Recent Add :</span>
+<div class="card-deck ">
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            if (Model != null)
+            {
+            <!-- Display a div of col-sm-3 containing the card up to n number of times, ie in a loop -->
+            <div class="card border-dark mb-3" style="max-width: 16rem;margin-left:16px;">
+                <div class="card-header bg-transparent border-success" style="text-align:center">
+                    <span class="badge bg-secondary">Note Id: &nbsp;@item.NoteId</span>
+                </div>
+                <div class="card-body text-success" style="text-align:center">
+                    @if (item.NoteFile != null)
+                    {
+                        FileInfo fi = new FileInfo(item.NoteFile);
+                        // Get file extension
+                        string extn = fi.Extension;
+                        if (extn == ".mp4")
+                        {
+                            <video controls="controls" loop autoplay muted width="200" height="300">
+                                <source src="@item.NoteFile" type="video/mp4" />
+                            </video>
+                        }
+                        else if (extn == ".mp3")
+                        {
+                            <audio id="audio" controls style="  width: 230px; margin-left: -17px; margin-top: 121px"><source src="@item.NoteFile"></audio>
+                        }
+                        else
+                        {
+
+                            <img src=" @item.NoteFile" width="200" height="300">
+
+                        }
+                    }
+                    <p class="card-text">@item.NoteDesciption  </p>
+                </div>
+                <div class="card-footer bg-transparent border-success" style="text-align:center">
+                    <span class="badge bg-secondary">Created Date: &nbsp;@item.CreatedDate</span>
+                </div>
+            </div>
+            }
+            else
+            {
+                <h5 style="text-align:center">Not Found !!</h5>
+            }
+
+        }
+    </div>
+</div>

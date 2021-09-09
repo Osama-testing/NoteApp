@@ -33,6 +33,8 @@ namespace NoteApp.Models
         public DbSet<ListModel> ListModel { get; set; }
         public DbSet<TagModel> TagModel { get; set; }
         public DbSet<NotesModel> NotesModel { get; set; }
+        public DbSet<NoteTag> NoteTag { get; set; }
+
 
 
     }

@@ -198,7 +198,6 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ListController.cs" />
-    <Compile Include="Controllers\ListTblsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -231,30 +230,61 @@
     <Compile Include="Migrations\202109060655098_ChangTblName.designer.cs">
       <DependentUpon>202109060655098_ChangTblName.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202109070523365_ChangCoomnName.cs" />
+    <Compile Include="Migrations\202109070523365_ChangCoomnName.designer.cs">
+      <DependentUpon>202109070523365_ChangCoomnName.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202109070532314_AddColoum.cs" />
+    <Compile Include="Migrations\202109070532314_AddColoum.designer.cs">
+      <DependentUpon>202109070532314_AddColoum.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202109071011082_AddColoumnNotes.cs" />
+    <Compile Include="Migrations\202109071011082_AddColoumnNotes.designer.cs">
+      <DependentUpon>202109071011082_AddColoumnNotes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202109080950439_AddColoumnInNoteTbl.cs" />
+    <Compile Include="Migrations\202109080950439_AddColoumnInNoteTbl.designer.cs">
+      <DependentUpon>202109080950439_AddColoumnInNoteTbl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202109090809124_AddJuntionTbl.cs" />
+    <Compile Include="Migrations\202109090809124_AddJuntionTbl.designer.cs">
+      <DependentUpon>202109090809124_AddJuntionTbl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202109091053224_RemoveColoumnTagTbl.cs" />
+    <Compile Include="Migrations\202109091053224_RemoveColoumnTagTbl.designer.cs">
+      <DependentUpon>202109091053224_RemoveColoumnTagTbl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202109091124025_RemoveColoumnId.cs" />
+    <Compile Include="Migrations\202109091124025_RemoveColoumnId.designer.cs">
+      <DependentUpon>202109091124025_RemoveColoumnId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202109091129013_AddColoumn.cs" />
+    <Compile Include="Migrations\202109091129013_AddColoumn.designer.cs">
+      <DependentUpon>202109091129013_AddColoumn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202109091135437_DropColoumnNotesTbl.cs" />
+    <Compile Include="Migrations\202109091135437_DropColoumnNotesTbl.designer.cs">
+      <DependentUpon>202109091135437_DropColoumnNotesTbl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202109091147284_AddClmn.cs" />
+    <Compile Include="Migrations\202109091147284_AddClmn.designer.cs">
+      <DependentUpon>202109091147284_AddClmn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202109091259326_DropColoumn.cs" />
+    <Compile Include="Migrations\202109091259326_DropColoumn.designer.cs">
+      <DependentUpon>202109091259326_DropColoumn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202109091302472_AddFK.cs" />
+    <Compile Include="Migrations\202109091302472_AddFK.designer.cs">
+      <DependentUpon>202109091302472_AddFK.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ListModel.cs" />
-    <Compile Include="Models\ListTbl.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\Model1.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Model1.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Model1.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Model1.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Model1.edmx</DependentUpon>
-    </Compile>
     <Compile Include="Models\NotesModel.cs" />
+    <Compile Include="Models\NoteTag.cs" />
     <Compile Include="Models\TagModel.cs" />
     <Compile Include="Models\ListViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -277,22 +307,13 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\css\imageModal.css" />
     <Content Include="Content\css\select2.css" />
     <Content Include="Content\css\select2.min.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Models\Model1.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Model1.edmx</DependentUpon>
-      <LastGenOutput>Model1.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Models\Model1.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Model1.edmx</DependentUpon>
-      <LastGenOutput>Model1.cs</LastGenOutput>
-    </Content>
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
@@ -321,13 +342,6 @@
     <Content Include="Content\bootstrap-grid.rtl.css.map" />
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
-    <EntityDeploy Include="Models\Model1.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\Model1.edmx.diagram">
-      <DependentUpon>Model1.edmx</DependentUpon>
-    </Content>
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <None Include="Scripts\jquery-1.7-vsdoc.js" />
     <Content Include="Scripts\i18n\af.js" />
@@ -432,13 +446,9 @@
     <Content Include="Views\List\Index.cshtml" />
     <Content Include="Views\Shared\_GetLists.cshtml" />
     <Content Include="Views\List\AddNotes.cshtml" />
-    <Content Include="Views\ListTbls\Create.cshtml" />
-    <Content Include="Views\ListTbls\Delete.cshtml" />
-    <Content Include="Views\ListTbls\Details.cshtml" />
-    <Content Include="Views\ListTbls\Edit.cshtml" />
-    <Content Include="Views\ListTbls\Index.cshtml" />
-    <Content Include="Views\List\testing.cshtml" />
     <Content Include="Views\List\EditList.cshtml" />
+    <Content Include="Views\List\ShowNotes.cshtml" />
+    <Content Include="Views\Shared\_RecentNotes.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -469,6 +479,42 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202109060655098_ChangTblName.resx">
       <DependentUpon>202109060655098_ChangTblName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202109070523365_ChangCoomnName.resx">
+      <DependentUpon>202109070523365_ChangCoomnName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202109070532314_AddColoum.resx">
+      <DependentUpon>202109070532314_AddColoum.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202109071011082_AddColoumnNotes.resx">
+      <DependentUpon>202109071011082_AddColoumnNotes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202109080950439_AddColoumnInNoteTbl.resx">
+      <DependentUpon>202109080950439_AddColoumnInNoteTbl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202109090809124_AddJuntionTbl.resx">
+      <DependentUpon>202109090809124_AddJuntionTbl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202109091053224_RemoveColoumnTagTbl.resx">
+      <DependentUpon>202109091053224_RemoveColoumnTagTbl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202109091124025_RemoveColoumnId.resx">
+      <DependentUpon>202109091124025_RemoveColoumnId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202109091129013_AddColoumn.resx">
+      <DependentUpon>202109091129013_AddColoumn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202109091135437_DropColoumnNotesTbl.resx">
+      <DependentUpon>202109091135437_DropColoumnNotesTbl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202109091147284_AddClmn.resx">
+      <DependentUpon>202109091147284_AddClmn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202109091259326_DropColoumn.resx">
+      <DependentUpon>202109091259326_DropColoumn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202109091302472_AddFK.resx">
+      <DependentUpon>202109091302472_AddFK.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

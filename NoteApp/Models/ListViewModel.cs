@@ -18,6 +18,7 @@ namespace NoteApp.Models
         public List<string> Tags { get; set; }
         //  public IEnumerable<ListModel> ListModel { get; set; }
         public List<ListModel> GetListModels { get; set; }
+        public List<NotesModel> GetNotes { set; get; }
 
     }
 }

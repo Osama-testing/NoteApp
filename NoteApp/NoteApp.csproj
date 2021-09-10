@@ -449,6 +449,7 @@
     <Content Include="Views\List\EditList.cshtml" />
     <Content Include="Views\List\ShowNotes.cshtml" />
     <Content Include="Views\Shared\_RecentNotes.cshtml" />
+    <Content Include="Views\List\SearchByTags.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

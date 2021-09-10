@@ -16,7 +16,6 @@ namespace NoteApp.Controllers
     public class ListController : Controller
     {
         ApplicationDbContext dbContext = new ApplicationDbContext();
-        // GET: List
         public ActionResult Index()
         {
             return View();
@@ -51,7 +50,7 @@ namespace NoteApp.Controllers
             dbContext.SaveChanges();
             return RedirectToAction("Index");
         }
-
+        #region UnusedCode
         //[System.Web.Mvc.HttpGet]
         //public ActionResult AddNotes()
         //{
@@ -79,6 +78,8 @@ namespace NoteApp.Controllers
         //    dbContext.SaveChanges();
         //    return RedirectToAction("Index");
         //}
+        #endregion
+
         [System.Web.Mvc.HttpGet]
         public ActionResult AddNotes()
         {
@@ -88,6 +89,7 @@ namespace NoteApp.Controllers
         [System.Web.Http.HttpPost]
         public ActionResult AddNotes(ListViewModel listViewModel, int Id)
         {
+            
             DateTime dateTime = DateTime.Now;
             string userId = User.Identity.GetUserId<string>();
             //For List Notes 
@@ -119,20 +121,53 @@ namespace NoteApp.Controllers
                 for (int i = 0; i < listViewModel.Tags.Count(); i++)
                 {
                     var tags = listViewModel.Tags.ElementAt(i);
-                    tagModel.TagItem = tags;
-                    tagModel.IsActive = true;
-                    dbContext.TagModel.Attach(tagModel);
-                    //dbContext.TagModel.Add(tagModel);
-                    //dbContext.SaveChanges();
+                    TagModel existingTag;
+                  
+                    using (var context = new ApplicationDbContext())
+                    {
+                        existingTag = (from d in context.TagModel
+                                  where d.TagItem == tags
+                                  select d).SingleOrDefault();
+                    }
+                    if (existingTag != null)
+                    {
+                        tagModel.TagItem = tags;
+                        tagModel.IsActive = true;
+                        dbContext.TagModel.Attach(tagModel);
+                        dbContext.SaveChanges();
+                        noteTag.NoteId = Note_Id;
+                        noteTag.TagId = existingTag.TagId;
+                        dbContext.NoteTag.Add(noteTag);
+                        dbContext.SaveChanges();
+
+                    }
+                    else
+                    {
+                        tagModel.TagItem = tags;
+                        tagModel.IsActive = true;
+                        dbContext.TagModel.Add(tagModel);
+                        dbContext.SaveChanges();
+                        noteTag.NoteId = Note_Id;
+                        int Tag_Id = int.Parse(dbContext.TagModel
+                               .OrderByDescending(p => p.TagId)
+                               .Select(r => r.TagId)
+                               .First().ToString());
+                        noteTag.TagId = Tag_Id;
+                        dbContext.NoteTag.Add(noteTag);
+                        dbContext.SaveChanges();
+                    }
+
                     ////////////////////////////////////////////////////////
-                    int Tag_Id = int.Parse(dbContext.TagModel
-                           .OrderByDescending(p => p.TagId)
-                           .Select(r => r.TagId)
-                           .First().ToString());
-                    noteTag.NoteId = Note_Id;
-                    noteTag.TagId = Tag_Id;
-                    dbContext.NoteTag.Add(noteTag);
-                    dbContext.SaveChanges();
+               
+                    ////////////////////////////////////////////////////////
+                    //int Tag_Id = int.Parse(dbContext.TagModel
+                    //       .OrderByDescending(p => p.TagId)
+                    //       .Select(r => r.TagId)
+                    //       .First().ToString());
+                    //noteTag.NoteId = Note_Id;
+                    //noteTag.TagId = Tag_Id;
+                    //dbContext.NoteTag.Add(noteTag);
+                    //dbContext.SaveChanges();
 
 
                 }
@@ -143,8 +178,7 @@ namespace NoteApp.Controllers
         public ActionResult EditList(int Id)
         {
                 var a = dbContext.ListModel.Where(x => x.List_Id == Id).FirstOrDefault();
-                return View(a);
-            
+                return View(a);         
         }
         [System.Web.Http.HttpPut]
         public ActionResult EditLists(ListModel listModel)
@@ -164,6 +198,8 @@ namespace NoteApp.Controllers
             var note_Id = dbContext.NotesModel
                   .Where(p => p.List_Id == Id)
                   .Select(p => p.NoteId).ToList();
+            
+            #region UnusedCode
             for (int i = 0; i < note_Id.Count; i++)
             {
                 int note_id = note_Id.ElementAt(i);
@@ -175,6 +211,8 @@ namespace NoteApp.Controllers
 
             // var Note_Id=dbContext.NotesModel.FirstOrDefault(x => x.NoteId ==listViewModel.GetNotes. );
             // var b=dbContext.TagModel.Where(x=>x.NoteId==a.)
+            #endregion
+
             return View(note);
         }
         public PartialViewResult RecentNotes()
@@ -186,8 +224,26 @@ namespace NoteApp.Controllers
 
         public ActionResult SearchByTags(String Tag)
         {
-          //  var tags = dbContext.TagModel.ToList().Where(x => x.TagItem == Tag).Select(x => x.NoteId);
-            return View();
+            int   tagId = dbContext.TagModel.Where(x => x.TagItem == Tag).Select(x =>x.TagId ).FirstOrDefault();
+            // var noteId = dbContext.NoteTag.ToList().Where(x => x.TagId == tagId).GroupBy(x => x.NoteId).Select(x => x.First());//distnct here     it is fine      
+            var noteId = dbContext.NoteTag
+                                  .Where(d => d.TagId == tagId).ToList()
+                                  .Select(d => (Int32)d.NoteId);
+            //.SingleOrDefault();
+            //  NotesModel notesModel = new NotesModel();
+            List<NotesModel> notesModel = new List<NotesModel>();
+            for (int j = 0; j < noteId.Count(); j++)
+            {
+                int _noteId = noteId.ElementAt(j);
+                var note = dbContext.NotesModel.Where(x => x.NoteId == _noteId).FirstOrDefault(); // here we can validate with login user
+
+                //     notesModel.Id = note.Id;
+                notesModel.Add(note);
+            }
+
+
+            //    }
+            return View(notesModel);
         }
 
 

@@ -10,13 +10,7 @@
         vertical-align: middle;
     }
 </style>
-<div>
-    <select class="form-control" required multiple="multiple" id="tagData" name="Tags" style="width: 80%; max-width: 134%;">
-    </select>
-    <button class="btn btn-secondary"  onclick="SearchByTags();">Show Notes</button>
-    <button class="btn btn-secondary" id="clearbtn" onclick="ClearSearchBar();">Clear Tags</button>
-</div>
-<hr style=" border: 5px solid green; border-radius: 10px;" />
+
 <span class="badge rounded-pill bg-dark">All List:</span>
 <div class="card-deck ">
     <div class="row">
@@ -47,30 +41,3 @@
 
 
 </div>
-<script>
-    $(document).ready(function () {
-        console.log("ready!");
-        $("#tagData").select2({
-            placeholder: 'Search by Tag...',
-            tags: true,
-            maximumSelectionLength: 1,
-            tokenSeparators: [',', ' ']
-        })
-
-    });
-    function ClearSearchBar() {
-        console.log("Clear Search bar !")
-        $('#tagData').val(null).trigger('change');
-    }
-    function SearchByTags() {
-        var tagitem = $('#tagData').val();
-        console.log(tagitem);
-        window.location.href="/List/SearchByTags?Tag="+tagitem;
-
-    }
-
-
-
-
-
-</script>

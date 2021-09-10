@@ -1,0 +1,70 @@
+﻿
+@*@using NoteApp.Models;
+    @model ListViewModel*@
+@model IEnumerable<NoteApp.Models.NotesModel>
+@{
+    ViewBag.Title = "SearchNotes";
+}
+<style>
+    .center {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 60%;
+    }
+</style>
+
+
+    <br />
+    <a href="http://localhost:58940/List" class=" btn btn-primary">
+        <i class="fa fa-arrow-circle-left" style="font-size:24px"></i>
+        Back to List
+    </a>
+    <div class="card-deck ">
+        <div class="row">
+            @foreach (var item in Model)
+            {
+
+                <!-- Display a div of col-sm-3 containing the card up to n number of times, ie in a loop -->
+                <div class="card border-dark mb-3" style="max-width: 26rem;margin-left:16px;">
+                    <div class="card-header bg-transparent border-success" style="text-align:center">
+                        <span class="badge bg-secondary">Note Id: &nbsp;@item.NoteId</span>
+                    </div>
+                    <div class="card-body text-success" style="text-align:center">
+
+                        @if (item.NoteFile != null)
+                        {
+                            FileInfo fi = new FileInfo(item.NoteFile);
+                            // Get file extension
+                            string extn = fi.Extension;
+                            if (extn == ".mp4")
+                            {
+                                <video controls="controls" width="375" height="300">
+                                    <source src="@item.NoteFile" type="video/mp4" />
+                                </video>
+                            }
+                            else if (extn == ".mp3")
+                            {
+                                <audio id="audio" controls><source src="@item.NoteFile"></audio>
+                            }
+                            else
+                            {
+
+                                <img src=" @item.NoteFile" width="375" height="300">
+
+                            }
+                        }
+
+                        <p class="card-text">@item.NoteDesciption  </p>
+                    </div>
+                    <div class="card-footer bg-transparent border-success" style="text-align:center">
+                        <span class="badge bg-secondary">Created Date: &nbsp;@item.CreatedDate</span>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+}
+
+

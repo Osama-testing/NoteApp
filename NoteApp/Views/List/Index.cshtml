@@ -5,14 +5,21 @@
 @using NoteApp.Models;
 @model ListModel
 <br />
+<div>
+    <select class="form-control" required multiple="multiple" id="tagData" name="Tags" style="width: 82%; max-width: 134%;"></select>
+    <button class="btn btn-secondary" onclick="SearchByTags();">Show Notes</button>
+    <button class="btn btn-secondary" id="clearbtn" onclick="ClearSearchBar();">Clear Tags</button>
+</div>
+<hr style=" border: 5px solid green; border-radius: 10px;" />
+
 <button type="button" class="btn btn-secondary" onclick="txtboxShow()">Create List</button>
-<br /><br />
+<br />
 <div id="myDIV">
     @using (Html.BeginForm("AddList", "List", FormMethod.Post))
     {
         @Html.AntiForgeryToken()
         <form>
-            @Html.TextBoxFor(model=> model.ListName, new { @class = "form-control", @placeholder = "Enter List Name", @required = "required" })
+            @Html.TextBoxFor(model => model.ListName, new { @class = "form-control", @placeholder = "Enter List Name", @required = "required" })
             <br />
             <input type="submit" value="Submit" class="btn btn-success">
         </form>
@@ -21,13 +28,19 @@
 <hr style=" border: 5px solid green; border-radius: 10px;" />
 
 @{Html.RenderAction("RecentNotes", "List");}
-<hr  style=" border: 5px solid green; border-radius: 10px;" />
+<hr style=" border: 5px solid green; border-radius: 10px;" />
 @{Html.RenderAction("GetLists", "List");}
 
 <script>
     $(document).ready(function () {
         $('#myDIV').hide();
-
+        console.log("ready!");
+        $("#tagData").select2({
+            placeholder: 'Search by Tag...',
+            tags: true,
+            maximumSelectionLength: 1,
+            tokenSeparators: [',', ' ']
+        })
     });
     function txtboxShow() {
         var x = document.getElementById("myDIV");
@@ -37,5 +50,20 @@
             x.style.display = "none";
         }
     }
-</script>
 
+    function ClearSearchBar() {
+        console.log("Clear Search bar !")
+        $('#tagData').val(null).trigger('change');
+    }
+    function SearchByTags() {
+        var tagitem = $('#tagData').val();
+        console.log(tagitem);
+        window.location.href = "/List/SearchByTags?Tag=" + tagitem;
+
+    }
+
+
+
+
+
+</script>

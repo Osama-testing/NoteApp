@@ -11,6 +11,15 @@
         margin-right: auto;
         width: 60%;
     }
+            .summary {
+   
+    white-space: nowrap;
+
+    overflow: hidden;
+   text-overflow: ellipsis;  
+   -webkit-line-clamp: 5; /* number of lines to show */
+
+}
 </style>
 @if (Model.Count() == 0)
 {
@@ -28,6 +37,7 @@ else
         Back to List
     </a>
     var a = Model.Count();
+    
     <button class=" btn btn-primary" style="float:right">
       Total Notes: &nbsp; @a
     </button>
@@ -65,17 +75,36 @@ else
 
                             }
                         }
-
-                        <p class="card-text">@item.NoteDesciption  </p>
+                        @if (item.NoteDesciption != null)
+                        {
+                            <p id="notetext" style="text-align:center" class="card-text summary">@item.NoteDesciption</p>
+                            if (item.NoteDesciption != null && item.NoteDesciption.Length > 250)
+                            {
+                                <a class="btn btn-light btn-sm" href="#">Read More</a>
+                            }
+                        }
+                        <a href="@Url.Action("DeleteNote","List", new { id = item.NoteId })" class="btn btn-light btn-sm" onclick="return confirm('Are you sure you to delete this Record?');">Delete </a>
+                        <a href="@Url.Action("EditNote","List", new { id = item.NoteId })" class="btn btn-light btn-sm">Edit </a>
                     </div>
                     <div class="card-footer bg-transparent border-success" style="text-align:center">
                         <span class="badge bg-secondary">Created Date: &nbsp;@item.CreatedDate</span>
                     </div>
                 </div>
+
             }
         </div>
     </div>
 
 }
 
-
+<script>
+ $('a').click(function() {
+        var text = $(this).prev('#notetext');
+    text.toggleClass('summary');
+    if(text.hasClass('summary')) {
+        $(this).text('more');
+    } else {
+        $(this).text('less');
+    }
+});
+</script>

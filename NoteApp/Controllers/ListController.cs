@@ -18,6 +18,7 @@ namespace NoteApp.Controllers
         ApplicationDbContext dbContext = new ApplicationDbContext();
         public ActionResult Index()
         {
+
             return View();
         }
         public PartialViewResult GetLists(int? page)
@@ -245,7 +246,27 @@ namespace NoteApp.Controllers
             //    }
             return View(notesModel);
         }
+        [HttpGet]
+        public ActionResult DeleteNote(int Id)
+        {
+            NotesModel notesModel = new NotesModel();
+            notesModel = dbContext.NotesModel.Where(x => x.NoteId == Id).FirstOrDefault();
+            var ListId = dbContext.NotesModel.Where(x => x.NoteId == Id).Select(x=>x.List_Id).ToList();
+            dbContext.NotesModel.Remove(notesModel);
+            dbContext.SaveChanges();
+            return RedirectToAction("ShowNotes", new { id = notesModel.List_Id });
+        }
+        [HttpGet]
+        public ActionResult EditNote(int Id)
+        {
+            var  a = dbContext.NotesModel.Where(x => x.NoteId == Id).FirstOrDefault();
+            return View(a);          
+        }
+        [System.Web.Http.HttpPost]
+        public ActionResult EditNotes(ListViewModel listViewModel )
+        {
+            return View();
 
-
+        }
     }
 }

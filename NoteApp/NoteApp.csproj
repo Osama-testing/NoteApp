@@ -450,6 +450,7 @@
     <Content Include="Views\List\ShowNotes.cshtml" />
     <Content Include="Views\Shared\_RecentNotes.cshtml" />
     <Content Include="Views\List\SearchByTags.cshtml" />
+    <Content Include="Views\List\EditNote.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -37,7 +37,7 @@
                 <div class="form-group">
                     <div class="col-md-10">
                         <div class="mb-3" id="text" style="display:none">
-                            @Html.TextAreaFor(model => model.NotesModel.NoteDesciption, new { style = "width: 120%; max-width: 134%;", @class = "form-control", @placeholder = "Enter Note Description" })
+                            @Html.TextAreaFor(model => model.NotesModel.NoteDesciption, new {id="noteDesciption" ,style = "width: 120%; max-width: 134%;", @class = "form-control", @placeholder = "Enter Note Description" })
 
                         </div>
                     </div>
@@ -46,7 +46,7 @@
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
                         <div class="mb-3" id="file" style="display:none">
-                            @Html.TextBoxFor(m => m.File, new { style = "width: 120%; max-width: 134%;", type = "file", @class = "form-control", @onchange = "readURL(this);" })
+                            @Html.TextBoxFor(m => m.File, new {id="noteFile" , style = "width: 120%; max-width: 134%;", type = "file", @class = "form-control", @onchange = "readURL(this);" })
                             <img id="img" alt="" />
                             <div class="embed-responsive embed-responsive-16by9">
                                 <iframe id="vedio" ></iframe>
@@ -60,7 +60,18 @@
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
                         <div>
-                            <select class="form-control" required multiple="multiple" id="tagData" onchange="test();" name="Tags" style="width: 120%; max-width: 134%;"></select>
+                            <select class="form-control" required multiple="multiple" id="tagData" onchange="test();" name="Tags" style="width: 120%; max-width: 134%;">
+                                @{
+                                    if (@ViewBag.Tags != null)
+                                    {
+                                        foreach (var items in @ViewBag.Tags)
+                                        {
+                                        <option>@items</option>
+                                            }
+                                        }
+                                    }
+
+                            </select>
                         </div>
                     </div>
                 </div><hr />
@@ -163,7 +174,7 @@
         placeholder: 'Select Tag',
         tags: true,
         tokenSeparators: [',', ' '],
-         maximumSelectionLength: 1
+        
     })
 
 

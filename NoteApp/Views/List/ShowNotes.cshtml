@@ -32,13 +32,13 @@
 else
 {
     <br />
-    <a href="http://localhost:58940/List" class=" btn btn-primary">
+    <a href="http://localhost:58940/List" class=" btn btn-secondary">
         <i class="fa fa-arrow-circle-left" style="font-size:24px"></i>
         Back to List
     </a>
     var a = Model.Count();
-    
-    <button class=" btn btn-primary" style="float:right">
+
+    <button class=" btn btn-secondary" style="float:right">
       Total Notes: &nbsp; @a
     </button>
     <div class="card-deck ">
@@ -60,7 +60,7 @@ else
                             string extn = fi.Extension;
                             if (extn == ".mp4")
                             {
-                                <video controls="controls" width="375" height="300">
+                                <video controls="controls" loop muted autoplay width="375" height="300">
                                     <source src="@item.NoteFile" type="video/mp4" />
                                 </video>
                             }
@@ -75,30 +75,31 @@ else
 
                             }
                         }
-                        @if (item.NoteDesciption != null)
-                        {
-                            <p id="notetext" style="text-align:center" class="card-text summary">@item.NoteDesciption</p>
-                            if (item.NoteDesciption != null && item.NoteDesciption.Length > 250)
+                        @{ 
+                            if (item.NoteDesciption != null)
                             {
-                                <a class="btn btn-light btn-sm" href="#">Read More</a>
+                            <p id="notetext" style="text-align:center" class="card-text summary">@item.NoteDesciption</p>
+                                if (item.NoteDesciption != null && item.NoteDesciption.Length > 250)
+                                {
+                                <a id="readmore" class="btn btn-light btn-sm" href="#">Read More</a>
+                                }
                             }
                         }
-                        <a href="@Url.Action("DeleteNote","List", new { id = item.NoteId })" class="btn btn-light btn-sm" onclick="return confirm('Are you sure you to delete this Record?');">Delete </a>
-                        <a href="@Url.Action("EditNote","List", new { id = item.NoteId })" class="btn btn-light btn-sm">Edit </a>
+                        <a href="@Url.Action("DeleteNote", "List", new { id = item.NoteId })" class="btn btn-light btn-sm" onclick="return confirm('Are you sure you to delete this Record?');">Delete </a>
+                        <a href="@Url.Action("EditNote", "List", new { id = item.NoteId })" class="btn btn-light btn-sm">Edit </a>
                     </div>
                     <div class="card-footer bg-transparent border-success" style="text-align:center">
                         <span class="badge bg-secondary">Created Date: &nbsp;@item.CreatedDate</span>
                     </div>
                 </div>
-
-            }
+                                
+                            }
         </div>
     </div>
 
 }
-
 <script>
- $('a').click(function() {
+ $('#readmore').click(function() {
         var text = $(this).prev('#notetext');
     text.toggleClass('summary');
     if(text.hasClass('summary')) {

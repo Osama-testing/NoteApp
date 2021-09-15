@@ -1,5 +1,4 @@
-﻿
-@*@using NoteApp.Models;
+﻿@*@using NoteApp.Models;
     @model ListViewModel*@
 @model IEnumerable<NoteApp.Models.NotesModel>
 @{
@@ -14,12 +13,26 @@
     }
 </style>
 
-
+@if (Model.Count() == 0)
+{
+    <img src="https://cdn.dribbble.com/users/1135689/screenshots/3957784/no-result-found.png" class="center" />
+    <a href="http://localhost:58940/List" class="center btn btn-primary">
+        <i class="fa fa-arrow-circle-left" style="font-size:24px"></i>
+        Back to List
+    </a>
+}
+else
+{
     <br />
     <a href="http://localhost:58940/List" class=" btn btn-primary">
         <i class="fa fa-arrow-circle-left" style="font-size:24px"></i>
         Back to List
     </a>
+    var a = Model.Count();
+
+    <button class=" btn btn-primary" style="float:right">
+        Total Notes: &nbsp; @a
+    </button>
     <div class="card-deck ">
         <div class="row">
             @foreach (var item in Model)

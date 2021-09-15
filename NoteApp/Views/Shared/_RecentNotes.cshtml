@@ -14,7 +14,7 @@
         -webkit-line-clamp: 5; /* number of lines to show */
     }
 </style>
-<span class="badge rounded-pill bg-dark">Recent Add :</span>
+<span class="badge rounded-pill bg-dark">Recent Add/Modified :</span>
 <div class="card-deck ">
     <div class="row">
         @foreach (var item in Model)
@@ -44,8 +44,27 @@
                             }
                             else
                             {
+                                <a href="#" class="pop">
+                                    <img src="@item.NoteFile" style="width: 200px; height: 300px;">
+                                </a>
+                                <div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" data-dismiss="modal">
+                                        <div class="modal-content" >
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="staticBackdropLabel"></h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
 
-                                <img src=" @item.NoteFile" width="200" height="300">
+                                                <img src="" class="imagepreview" style="width: 100%;">
+                                            </div>
+                                            <div class="modal-footer">
+                                                <div class="col-xs-12">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
                             }
                         }
@@ -55,7 +74,7 @@
                             <p id="notetext" style="text-align:center" class="card-text summary">@item.NoteDesciption</p>
                             if (item.NoteDesciption != null && item.NoteDesciption.Length > 250)
                             {
-                                <a class="btn btn-light" href="#">Read More</a>
+                                <a id="readmore" class="btn btn-light" href="#">Read More</a>
                             }
                         }
 
@@ -74,7 +93,16 @@
     </div>
 </div>
 <script>
-    $('a').click(function () {
+    $(function() {
+		$('.pop').on('click', function() {
+			$('.imagepreview').attr('src', $(this).find('img').attr('src'));
+			$('#imagemodal').modal('show');   
+		});		
+});
+
+
+
+    $('#readmore').click(function () {
         var text = $(this).prev('#notetext');
         text.toggleClass('summary');
         if (text.hasClass('summary')) {

@@ -278,6 +278,30 @@
     <Compile Include="Migrations\202109091302472_AddFK.designer.cs">
       <DependentUpon>202109091302472_AddFK.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202109150533120_TableNameChange.cs" />
+    <Compile Include="Migrations\202109150533120_TableNameChange.designer.cs">
+      <DependentUpon>202109150533120_TableNameChange.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202109150555063_Checking.cs" />
+    <Compile Include="Migrations\202109150555063_Checking.designer.cs">
+      <DependentUpon>202109150555063_Checking.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202109150559232_ChngeClmnName.cs" />
+    <Compile Include="Migrations\202109150559232_ChngeClmnName.designer.cs">
+      <DependentUpon>202109150559232_ChngeClmnName.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202109150614129_ChngListClmnName.cs" />
+    <Compile Include="Migrations\202109150614129_ChngListClmnName.designer.cs">
+      <DependentUpon>202109150614129_ChngListClmnName.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202109150618593_ClmnNameChnge.cs" />
+    <Compile Include="Migrations\202109150618593_ClmnNameChnge.designer.cs">
+      <DependentUpon>202109150618593_ClmnNameChnge.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202109150809074_AddColoumnInNotestbl.cs" />
+    <Compile Include="Migrations\202109150809074_AddColoumnInNotestbl.designer.cs">
+      <DependentUpon>202109150809074_AddColoumnInNotestbl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -517,6 +541,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202109091302472_AddFK.resx">
       <DependentUpon>202109091302472_AddFK.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202109150533120_TableNameChange.resx">
+      <DependentUpon>202109150533120_TableNameChange.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202109150555063_Checking.resx">
+      <DependentUpon>202109150555063_Checking.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202109150559232_ChngeClmnName.resx">
+      <DependentUpon>202109150559232_ChngeClmnName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202109150614129_ChngListClmnName.resx">
+      <DependentUpon>202109150614129_ChngListClmnName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202109150618593_ClmnNameChnge.resx">
+      <DependentUpon>202109150618593_ClmnNameChnge.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202109150809074_AddColoumnInNotestbl.resx">
+      <DependentUpon>202109150809074_AddColoumnInNotestbl.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

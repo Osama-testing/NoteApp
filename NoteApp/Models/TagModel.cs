@@ -7,16 +7,12 @@ using System.Web;
 
 namespace NoteApp.Models
 {
-    [Table("TagTbl")]
+    [Table("tblTags")]
     public class TagModel
     {
         [Key]
         public int TagId { get; set; }
-    //    public int NoteId { get; set; }    //Foreign key--Note Id
         public string TagItem { get; set; }
         public bool IsActive { get; set; }
-
-        //[ForeignKey("NoteId")]
-        //public virtual NotesModel Notes{ get; set; }
     }
 }

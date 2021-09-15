@@ -6,13 +6,10 @@ using System.Web;
 
 namespace NoteApp.Models
 {
-    [Table("NoteTag")]
+    [Table("tblNoteTags")]
     public class NoteTag
     {
         public int Id { get; set; }
-
-
-   
         public int TagId { get; set; }
         public int NoteId { get; set; }
         [ForeignKey("TagId")]

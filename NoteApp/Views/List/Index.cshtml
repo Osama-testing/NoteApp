@@ -19,7 +19,7 @@
     {
         @Html.AntiForgeryToken()
         <form>
-            @Html.TextBoxFor(model => model.ListName, new { @class = "form-control", @placeholder = "Enter List Name", @required = "required" })
+            @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @placeholder = "Enter List Name", @required = "required" })
             <br />
             <input type="submit" value="Submit" class="btn btn-success">
         </form>

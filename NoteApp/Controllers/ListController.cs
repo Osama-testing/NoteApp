@@ -17,24 +17,18 @@ namespace NoteApp.Controllers
     [Authorize]
     public class ListController : Controller
     {
-        ApplicationDbContext dbContext = new ApplicationDbContext();
+        readonly ApplicationDbContext dbContext = new ApplicationDbContext();
+         public   int pageSize = 06;
+
         public ActionResult Index()
         {
-            //if (User.Identity.IsAuthenticated)
-            //{
                 return View();
-            //}
-
-            //return RedirectToAction("LogIn", "Account");
-
-
         }
         #region CRUD_List
 
         public PartialViewResult GetLists(int? page)
         {
             //Get All lists of login User
-            int pageSize = 06;
             int pageIndex = 1;
             pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
             string userId = User.Identity.GetUserId<string>();

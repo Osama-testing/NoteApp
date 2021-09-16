@@ -49,13 +49,12 @@
                                 </a>
                                 <div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" data-dismiss="modal">
-                                        <div class="modal-content" >
+                                        <div class="modal-content">
                                             <div class="modal-header">
                                                 <h5 class="modal-title" id="staticBackdropLabel"></h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-
                                                 <img src="" class="imagepreview" style="width: 100%;">
                                             </div>
                                             <div class="modal-footer">
@@ -71,11 +70,12 @@
 
                         @if (item.NoteDesciption != null)
                         {
+
                             <p id="notetext" style="text-align:center" class="card-text summary">@item.NoteDesciption</p>
-                            if (item.NoteDesciption != null && item.NoteDesciption.Length > 250)
-                            {
-                                <a id="readmore" class="btn btn-light" href="#">Read More</a>
-                            }
+                                if (item.NoteDesciption != null && item.NoteDesciption.Length > 250)
+                                {
+                                    <a id="readmore" class="btn btn-light" href="#">Read More</a>
+                                }
                         }
 
                     </div>
@@ -90,17 +90,18 @@
             }
 
         }
+
     </div>
 </div>
 <script>
     $(function() {
 		$('.pop').on('click', function() {
-			$('.imagepreview').attr('src', $(this).find('img').attr('src'));
+            $('.imagepreview').attr('src', $(this).find('img').attr('src'));       
 			$('#imagemodal').modal('show');   
 		});		
 });
 
-
+  
 
     $('#readmore').click(function () {
         var text = $(this).prev('#notetext');

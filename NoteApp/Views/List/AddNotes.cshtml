@@ -78,7 +78,7 @@
                 <br>
                 <div class="form-group">
                     <div class="d-flex justify-content-center">
-                        <input type="submit" class="btn btn-primary" value="Create Note" style="width: 120%; max-width: 134%;" align-self:center" /><br />
+                        <input id="btnSubmit" type="button" onclick="validation()" class="btn btn-primary" value="Create Note" style="width: 120%; max-width: 134%;" align-self:center" /><br />
                     </div> 
                     <div class="d-flex justify-content-center">
                         <a href="http://localhost:58940/List"  style="width: 120%; max-width: 134%; margin-top:5px;  margin-bottom:5px" align-self:center">
@@ -176,6 +176,18 @@
         tokenSeparators: [',', ' '],
         
     })
+    function validation() {
+                var a = $("#noteDesciption").val();
+        var b = $("#noteFile").val();
+        if (a == "" && b == "") {
+            alert("Please Enter Note !!");
+        }
+        else {
+            $("#btnSubmit").attr('type', 'submit');
+        }
+
+
+    }
 
 
 </script>

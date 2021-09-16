@@ -9,19 +9,28 @@ using System.Linq;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
+using AuthorizeAttribute = System.Web.Mvc.AuthorizeAttribute;
 using HttpGetAttribute = System.Web.Http.HttpGetAttribute;
 
 namespace NoteApp.Controllers
 {
+    [Authorize]
     public class ListController : Controller
     {
         ApplicationDbContext dbContext = new ApplicationDbContext();
         public ActionResult Index()
         {
-            //Main Screen of lists
-            return View();
+            //if (User.Identity.IsAuthenticated)
+            //{
+                return View();
+            //}
+
+            //return RedirectToAction("LogIn", "Account");
+
+
         }
         #region CRUD_List
+
         public PartialViewResult GetLists(int? page)
         {
             //Get All lists of login User
@@ -32,20 +41,39 @@ namespace NoteApp.Controllers
             var getLists = dbContext.ListModel.ToList().Where(x=>x.UserId==userId).OrderByDescending(d => d.List_Id).ToPagedList(pageIndex, pageSize);
             return PartialView("_GetLists", getLists);
         }
+
         public ActionResult AddList(ListModel listModel)
         {
-            //Create New List
-            DateTime dateTime = DateTime.Now;
-            string userId = User.Identity.GetUserId<string>();         
-            listModel.CreatedDate = dateTime;
-            listModel.UpdatedDate = dateTime;
-            listModel.UserId = userId;
-            listModel.IsActive = true;
-            dbContext.ListModel.Add(listModel);
-            dbContext.SaveChanges();
-            ModelState.Clear();
+            ListModel existingName;
+            string userId = User.Identity.GetUserId<string>();
+            using (var context = new ApplicationDbContext())
+            {
+                existingName = (from d in context.ListModel
+                               where d.Name == listModel.Name && d.UserId==userId
+                               select d).SingleOrDefault();
+            }
+            if (existingName == null)
+            {
+                //Create New List
+                DateTime dateTime = DateTime.Now;
+                listModel.CreatedDate = dateTime;
+                listModel.UpdatedDate = dateTime;
+                listModel.UserId = userId;
+                listModel.IsActive = true;
+                dbContext.ListModel.Add(listModel);
+                dbContext.SaveChanges();
+                ModelState.Clear();
+            }
+            else
+            {
+                TempData["var"] = "abcd";
+                ViewBag.test = "abcd";
+
+
+            }
             return RedirectToAction("Index", "List");
         }
+
         public ActionResult DeleteList(int? Id, ListModel listModel)
         {
             //Delete List
@@ -54,23 +82,43 @@ namespace NoteApp.Controllers
             dbContext.SaveChanges();
             return RedirectToAction("Index");
         }
+   
         [HttpGet]
         public ActionResult EditList(int Id)
         {
             //Edit List
-            var a = dbContext.ListModel.Where(x => x.List_Id == Id).FirstOrDefault();
-            return View(a);
+            string userId = User.Identity.GetUserId<string>();           
+            var a = dbContext.ListModel.Where(x => x.List_Id == Id && x.UserId==userId).FirstOrDefault();
+            if (a!=null)
+            {
+                return View(a);
+
+            }
+            else
+            {
+                TempData["var"] = "qwerty";
+            }
+            return View();
+
         }
+ 
         [System.Web.Http.HttpPut]
         public ActionResult EditLists(ListModel listModel)
         {
             //Edit List
-            DateTime dateTime = DateTime.Now;
-            listModel.UserId = User.Identity.GetUserId<string>();
-            listModel.UpdatedDate = dateTime;
-            dbContext.Entry(listModel).State = EntityState.Modified;
-            dbContext.SaveChanges();
-            return View("Index");
+            if (listModel.List_Id != 0)
+            {
+                DateTime dateTime = DateTime.Now;
+                listModel.UserId = User.Identity.GetUserId<string>();
+                listModel.UpdatedDate = dateTime;
+                dbContext.Entry(listModel).State = EntityState.Modified;
+                dbContext.SaveChanges();
+                return View("Index");
+            }
+            else
+            {
+                return View("Index");
+            }
 
         }
         #endregion
@@ -86,11 +134,21 @@ namespace NoteApp.Controllers
                             .ToArray();
             return View();
         }
+
         [System.Web.Http.HttpPost]
         public ActionResult AddNotes(ListViewModel listViewModel, int Id)
         {
-                DateTime dateTime = DateTime.Now;
+                ListModel existingName;
                 string userId = User.Identity.GetUserId<string>();
+                using (var context = new ApplicationDbContext())
+                {
+                    existingName = (from d in context.ListModel
+                                    where d.List_Id == Id && d.UserId == userId
+                                    select d).SingleOrDefault();
+                }
+            if (existingName != null)
+            {
+                DateTime dateTime = DateTime.Now;
                 //For List Notes 
                 NotesModel notesModel = new NotesModel();
                 notesModel.UserId = userId;
@@ -157,19 +215,26 @@ namespace NoteApp.Controllers
                         }
                     }
                 }
+            }
+            else
+            {
+
+            }
 
    
 
             return View("AddNotes");
         }
         #endregion
-
+   
         public ActionResult ShowNotes(int Id)
         {
             //Show Note of Specific List
-            var note = dbContext.NotesModel.Where(x => x.List_Id == Id).ToList().OrderByDescending(x => x.NoteId);
+            string userId = User.Identity.GetUserId<string>();        
+            var note = dbContext.NotesModel.Where(x => x.List_Id == Id && x.UserId==userId).OrderByDescending(x => x.NoteId).ToList();            
             return View(note);
         }
+     
         public PartialViewResult RecentNotes()
         {
             //Recent Notes
@@ -177,7 +242,7 @@ namespace NoteApp.Controllers
             var notes = dbContext.NotesModel.Where(x => x.UserId == userId).OrderByDescending(x => x.UpdatedDate).Take(4);
             return PartialView("_RecentNotes",notes);
         }
-
+  
         public ActionResult SearchByTags(String Tag)
         {
             //Search Notes by Tags 
@@ -195,6 +260,7 @@ namespace NoteApp.Controllers
             }
             return View(notesModel);
         }
+     
         [HttpGet]
         public ActionResult DeleteNote(int Id)
         {
@@ -206,6 +272,7 @@ namespace NoteApp.Controllers
             dbContext.SaveChanges();
             return RedirectToAction("ShowNotes", new { id = notesModel.List_Id });
         }
+  
         [HttpGet]
         public ActionResult EditNote(int Id)
         {
@@ -223,6 +290,7 @@ namespace NoteApp.Controllers
             }
             return View(note);          
         }
+     
         [System.Web.Http.HttpPost]
         public ActionResult EditNotes(NotesModel notesModel,List<string> Tags )
         {

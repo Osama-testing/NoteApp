@@ -11,8 +11,11 @@
     <button class="btn btn-secondary" id="clearbtn" onclick="ClearSearchBar();">Clear Tags</button>
 </div>
 <hr style=" border: 5px solid green; border-radius: 10px;" />
-
-<button type="button" class="btn btn-secondary" onclick="txtboxShow()">Create List</button>
+<button type="button" class="btn btn-secondary" onclick="txtboxShow()">Create List</button>&nbsp;&nbsp;&nbsp;&nbsp;
+@if ((string)TempData["var"] == "abcd")
+{
+    <span class="badge rounded-pill bg-danger" id="validation">Already Exist,Please Try Another Name for List !!</span>
+}
 <br />
 <div id="myDIV">
     @using (Html.BeginForm("AddList", "List", FormMethod.Post))
@@ -26,11 +29,9 @@
     }
 </div>
 <hr style=" border: 5px solid green; border-radius: 10px;" />
-
 @{Html.RenderAction("RecentNotes", "List");}
 <hr style=" border: 5px solid green; border-radius: 10px;" />
 @{Html.RenderAction("GetLists", "List");}
-
 <script>
     $(document).ready(function () {
         $('#myDIV').hide();
@@ -57,13 +58,19 @@
     }
     function SearchByTags() {
         var tagitem = $('#tagData').val();
-        console.log(tagitem);
-        window.location.href = "/List/SearchByTags?Tag=" + tagitem;
+        if (tagitem == "") {
+            alert("Please Insert Tag First !!")
+        }
+        else {
+            console.log(tagitem);
+            window.location.href = "/List/SearchByTags?Tag=" + tagitem;
+        }
 
     }
 
-
-
+    setTimeout(function () {
+        $('#validation').fadeOut('fast');
+    }, 3000); // <-- time in milliseconds
 
 
 </script>

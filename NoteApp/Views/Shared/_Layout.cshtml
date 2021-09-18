@@ -44,10 +44,12 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
-                    <li class="nav-item">
-                        @Html.ActionLink("List", "Index", "List", new { area = "" }, new { @class = "navbar-brand" })
-
-                    </li>
+                    @if (Request.IsAuthenticated)
+                    {
+                        <li class="nav-item">
+                            @Html.ActionLink("List", "Index", "List", new { area = "" }, new { @class = "navbar-brand" })
+                        </li>
+                    }
                 </ul>
             </div>
             @Html.Partial("_LoginPartial")

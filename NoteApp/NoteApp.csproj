@@ -306,10 +306,6 @@
     <Compile Include="Migrations\202109161122305_AddClmnAspNetUser.designer.cs">
       <DependentUpon>202109161122305_AddClmnAspNetUser.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202109170903077_DataAnnotation.cs" />
-    <Compile Include="Migrations\202109170903077_DataAnnotation.designer.cs">
-      <DependentUpon>202109170903077_DataAnnotation.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -581,9 +577,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202109161122305_AddClmnAspNetUser.resx">
       <DependentUpon>202109161122305_AddClmnAspNetUser.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202109170903077_DataAnnotation.resx">
-      <DependentUpon>202109170903077_DataAnnotation.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

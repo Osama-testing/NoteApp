@@ -19,10 +19,6 @@ namespace NoteApp.Controllers
     {
         readonly ApplicationDbContext dbContext = new ApplicationDbContext();
          public   int pageSize = 06;
-        public ListController()
-        {
-
-        }
         public ActionResult Index()
         {
             return View();
@@ -179,6 +175,7 @@ namespace NoteApp.Controllers
                     //For List Tags
                     TagModel tagModel = new TagModel();
                     NoteTag noteTag = new NoteTag();
+                    NoteTag noteTags = new NoteTag();
                     if (listViewModel.Tags != null)
                     {
                         for (int i = 0; i < listViewModel.Tags.Count(); i++)
@@ -202,7 +199,7 @@ namespace NoteApp.Controllers
                                 dbContext.NoteTag.Add(noteTag);
                                 dbContext.SaveChanges();
                             }
-                            else
+                        else
                             {
                             using (var context = new ApplicationDbContext())
                             {
@@ -210,32 +207,22 @@ namespace NoteApp.Controllers
                                 tagModel.IsActive = true;
                                 context.TagModel.Add(tagModel);
                                 context.SaveChanges();
-                            }
-                                
-                                int Tag_Id = int.Parse(dbContext.TagModel
-                                       .OrderByDescending(p => p.TagId)
-                                       .Select(r => r.TagId)
-                                       .First().ToString());
-                                noteTag.TagId = Tag_Id;
-                                noteTag.NoteId = Note_Id;
-                               dbContext.NoteTag.Add(noteTag);
-                               dbContext.SaveChanges();
-                            
+                                var tagId = dbContext.TagModel
+                                   .OrderByDescending(p => p.TagId)
+                                   .Select(r => r.TagId)
+                                   .First();
+                                noteTags.TagId = tagId;
+                                noteTags.NoteId = Note_Id;
+                                context.NoteTag.Add(noteTags);
+                                context.SaveChanges();
                             }
                         }
+                    }
                     }
                 }
                 else
                 {
-
                 }
-
-            //}
-            //catch (Exception ex)
-            //{
-            //    Console.WriteLine(ex);
-            //}
-
             return View("AddNotes");
         }
         #endregion
@@ -285,6 +272,8 @@ namespace NoteApp.Controllers
             dbContext.SaveChanges();
             return RedirectToAction("ShowNotes", new { id = notesModel.List_Id });
         }
+
+        #region EditNote
         [HttpGet]
         public ActionResult EditNote(int Id)
         {
@@ -313,16 +302,16 @@ namespace NoteApp.Controllers
         [System.Web.Http.HttpPost]
         public ActionResult EditNotes(NotesModel notesModel,List<string> Tags )
         {
-            //Edit Notes--Get 
-            try
-            {
+               //Edit Notes--Get 
                 DateTime dateTime = DateTime.Now;
                 notesModel.UpdatedDate = dateTime;
                 dbContext.Entry(notesModel).State = EntityState.Modified;
                 dbContext.SaveChanges();
                 TagModel tagModel = new TagModel();
                 NoteTag noteTag = new NoteTag();
-                var tagIds = dbContext.NoteTag.Where(x => x.NoteId == notesModel.NoteId).Select(x => x.Id).ToList();
+                NoteTag notetags = new NoteTag();
+
+            var tagIds = dbContext.NoteTag.Where(x => x.NoteId == notesModel.NoteId).Select(x => x.Id).ToList();
                 for (int i = 0; i < tagIds.Count; i++)
                 {
                     int tagId = tagIds.ElementAt(i);
@@ -336,7 +325,7 @@ namespace NoteApp.Controllers
                     var tags = Tags.ElementAt(i);
                     TagModel existingTag;
                     NoteTag noteTags = new NoteTag();
-                    using (var context = new ApplicationDbContext())
+                using (var context = new ApplicationDbContext())
                     {
                         existingTag = (from d in context.TagModel
                                        where d.TagItem == tags
@@ -355,27 +344,27 @@ namespace NoteApp.Controllers
                     }
                     else
                     {
+                    using (var context = new ApplicationDbContext())
+                    {
                         tagModel.TagItem = tags;
                         tagModel.IsActive = true;
-                        dbContext.TagModel.Add(tagModel);
-                        dbContext.SaveChanges();
+                        context.TagModel.Add(tagModel);
+                        context.SaveChanges();
                         noteTags.NoteId = notesModel.NoteId;
-                        int Tag_Id = int.Parse(dbContext.TagModel
-                               .OrderByDescending(p => p.TagId)
-                               .Select(r => r.TagId)
-                               .First().ToString());
-                        noteTags.TagId = Tag_Id;
-                        dbContext.NoteTag.Add(noteTags);
-                        dbContext.SaveChanges();
+                        var tagId = dbContext.TagModel
+                                  .OrderByDescending(p => p.TagId)
+                                  .Select(r => r.TagId)
+                                  .First();
+                        notetags.TagId = tagId;
+                        notetags.NoteId = notesModel.NoteId;
+                        context.NoteTag.Add(notetags);
+                        context.SaveChanges();
                     }
-                }
-            }
-            catch(Exception ex)
-            {
-                Console.WriteLine(ex);
-            }
+                    }
+                }           
             return RedirectToAction("ShowNotes", new { id = notesModel.List_Id });
 
         }
+        #endregion
     }
 }

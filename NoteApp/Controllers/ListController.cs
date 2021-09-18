@@ -138,9 +138,10 @@ namespace NoteApp.Controllers
         }
 
         [System.Web.Http.HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult AddNotes(ListViewModel listViewModel, int Id)
         {
+            //try
+            //{
                 ListModel existingName;
                 string userId = User.Identity.GetUserId<string>();
                 using (var context = new ApplicationDbContext())
@@ -149,82 +150,91 @@ namespace NoteApp.Controllers
                                     where d.List_Id == Id && d.UserId == userId
                                     select d).SingleOrDefault();
                 }
-            if (existingName != null)
-            {
-                DateTime dateTime = DateTime.Now;
-                //For List Notes 
-                NotesModel notesModel = new NotesModel();
-                notesModel.UserId = userId;
-                notesModel.NoteDesciption = listViewModel.NotesModel.NoteDesciption;
-                notesModel.IsActive = true;
-                notesModel.List_Id = Id;
-                notesModel.CreatedDate = dateTime;
-                notesModel.UpdatedDate = dateTime;
-                if (listViewModel.File != null)
+                if (existingName != null)
                 {
-                    string str = listViewModel.File.FileName;
-                    string mediaFile = "/UploadedFiles/" + str.ToString();
-                    string path = Path.Combine(Server.MapPath("~/UploadedFiles"), Path.GetFileName(listViewModel.File.FileName));
-                    listViewModel.File.SaveAs(path);
-                    notesModel.NoteFile = mediaFile;
-                }
-                dbContext.NotesModel.Add(notesModel);
-                dbContext.SaveChanges();
-                ModelState.Clear();
-                int Note_Id = int.Parse(dbContext.NotesModel
-                                .OrderByDescending(p => p.NoteId)
-                                .Select(r => r.NoteId)
-                                .First().ToString());
-                //For List Tags
-                TagModel tagModel = new TagModel();
-                NoteTag noteTag = new NoteTag();
-                if (listViewModel.Tags != null)
-                {
-                    for (int i = 0; i < listViewModel.Tags.Count(); i++)
+                    DateTime dateTime = DateTime.Now;
+                    //For List Notes 
+                    NotesModel notesModel = new NotesModel();
+                    notesModel.UserId = userId;
+                    notesModel.NoteDesciption = listViewModel.NotesModel.NoteDesciption;
+                    notesModel.IsActive = true;
+                    notesModel.List_Id = Id;
+                    notesModel.CreatedDate = dateTime;
+                    notesModel.UpdatedDate = dateTime;
+                    if (listViewModel.File != null)
                     {
-                        var tags = listViewModel.Tags.ElementAt(i);
-                        TagModel existingTag;
-                        using (var context = new ApplicationDbContext())
+                        string str = listViewModel.File.FileName;
+                        string mediaFile = "/UploadedFiles/" + str.ToString();
+                        string path = Path.Combine(Server.MapPath("~/UploadedFiles"), Path.GetFileName(listViewModel.File.FileName));
+                        listViewModel.File.SaveAs(path);
+                        notesModel.NoteFile = mediaFile;
+                    }
+                    dbContext.NotesModel.Add(notesModel);
+                    dbContext.SaveChanges();
+                    ModelState.Clear();
+                    int Note_Id = int.Parse(dbContext.NotesModel
+                                    .OrderByDescending(p => p.NoteId)
+                                    .Select(r => r.NoteId)
+                                    .First().ToString());
+                    //For List Tags
+                    TagModel tagModel = new TagModel();
+                    NoteTag noteTag = new NoteTag();
+                    if (listViewModel.Tags != null)
+                    {
+                        for (int i = 0; i < listViewModel.Tags.Count(); i++)
                         {
-                            existingTag = (from d in context.TagModel
-                                           where d.TagItem == tags
-                                           select d).SingleOrDefault();
-                        }
-                        if (existingTag != null)
-                        {
-                            tagModel.TagItem = tags;
-                            tagModel.IsActive = true;
-                            dbContext.TagModel.Attach(tagModel);
-                            dbContext.SaveChanges();
-                            noteTag.NoteId = Note_Id;
-                            noteTag.TagId = existingTag.TagId;
-                            dbContext.NoteTag.Add(noteTag);
-                            dbContext.SaveChanges();
-                        }
-                        else
-                        {
-                            tagModel.TagItem = tags;
-                            tagModel.IsActive = true;
-                            dbContext.TagModel.Add(tagModel);
-                            dbContext.SaveChanges();
-                            noteTag.NoteId = Note_Id;
-                            int Tag_Id = int.Parse(dbContext.TagModel
-                                   .OrderByDescending(p => p.TagId)
-                                   .Select(r => r.TagId)
-                                   .First().ToString());
-                            noteTag.TagId = Tag_Id;
-                            dbContext.NoteTag.Add(noteTag);
-                            dbContext.SaveChanges();
+                            var tags = listViewModel.Tags.ElementAt(i);
+                            TagModel existingTag;
+                            using (var context = new ApplicationDbContext())
+                            {
+                                existingTag = (from d in context.TagModel
+                                               where d.TagItem == tags
+                                               select d).SingleOrDefault();
+                            }
+                            if (existingTag != null)
+                            {
+                                tagModel.TagItem = tags;
+                                tagModel.IsActive = true;
+                                dbContext.TagModel.Attach(tagModel);
+                                dbContext.SaveChanges();
+                                noteTag.NoteId = Note_Id;
+                                noteTag.TagId = existingTag.TagId;
+                                dbContext.NoteTag.Add(noteTag);
+                                dbContext.SaveChanges();
+                            }
+                            else
+                            {
+                            using (var context = new ApplicationDbContext())
+                            {
+                                tagModel.TagItem = tags;
+                                tagModel.IsActive = true;
+                                context.TagModel.Add(tagModel);
+                                context.SaveChanges();
+                            }
+                                
+                                int Tag_Id = int.Parse(dbContext.TagModel
+                                       .OrderByDescending(p => p.TagId)
+                                       .Select(r => r.TagId)
+                                       .First().ToString());
+                                noteTag.TagId = Tag_Id;
+                                noteTag.NoteId = Note_Id;
+                               dbContext.NoteTag.Add(noteTag);
+                               dbContext.SaveChanges();
+                            
+                            }
                         }
                     }
                 }
-            }
-            else
-            {
+                else
+                {
 
-            }
+                }
 
-   
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine(ex);
+            //}
 
             return View("AddNotes");
         }
@@ -263,7 +273,7 @@ namespace NoteApp.Controllers
             }
             return View(notesModel);
         }
-     
+    
         [HttpGet]
         public ActionResult DeleteNote(int Id)
         {
@@ -275,7 +285,6 @@ namespace NoteApp.Controllers
             dbContext.SaveChanges();
             return RedirectToAction("ShowNotes", new { id = notesModel.List_Id });
         }
-  
         [HttpGet]
         public ActionResult EditNote(int Id)
         {
@@ -300,66 +309,71 @@ namespace NoteApp.Controllers
                 }
             }
             return View(note);          
-        }
-     
+        }     
         [System.Web.Http.HttpPost]
         public ActionResult EditNotes(NotesModel notesModel,List<string> Tags )
         {
             //Edit Notes--Get 
-            DateTime dateTime = DateTime.Now;
-            notesModel.UpdatedDate = dateTime;
-            dbContext.Entry(notesModel).State = EntityState.Modified;
-            dbContext.SaveChanges();
-            TagModel tagModel = new TagModel();
-            NoteTag noteTag = new NoteTag();
-            var tagIds = dbContext.NoteTag.Where(x => x.NoteId == notesModel.NoteId).Select(x => x.Id).ToList();
-            for (int i = 0; i < tagIds.Count; i++)
+            try
             {
-                int tagId = tagIds.ElementAt(i);
-                noteTag = dbContext.NoteTag.Where(x => x.NoteId == notesModel.NoteId).FirstOrDefault();
-                dbContext.NoteTag.Remove(noteTag);
+                DateTime dateTime = DateTime.Now;
+                notesModel.UpdatedDate = dateTime;
+                dbContext.Entry(notesModel).State = EntityState.Modified;
                 dbContext.SaveChanges();
+                TagModel tagModel = new TagModel();
+                NoteTag noteTag = new NoteTag();
+                var tagIds = dbContext.NoteTag.Where(x => x.NoteId == notesModel.NoteId).Select(x => x.Id).ToList();
+                for (int i = 0; i < tagIds.Count; i++)
+                {
+                    int tagId = tagIds.ElementAt(i);
+                    noteTag = dbContext.NoteTag.Where(x => x.NoteId == notesModel.NoteId).FirstOrDefault();
+                    dbContext.NoteTag.Remove(noteTag);
+                    dbContext.SaveChanges();
+                }
+                noteTag = dbContext.NoteTag.Where(x => x.NoteId == notesModel.NoteId).FirstOrDefault();
+                for (int i = 0; i < Tags.Count(); i++)
+                {
+                    var tags = Tags.ElementAt(i);
+                    TagModel existingTag;
+                    NoteTag noteTags = new NoteTag();
+                    using (var context = new ApplicationDbContext())
+                    {
+                        existingTag = (from d in context.TagModel
+                                       where d.TagItem == tags
+                                       select d).SingleOrDefault();
+                    }
+                    if (existingTag != null)
+                    {
+                        tagModel.TagItem = tags;
+                        tagModel.IsActive = true;
+                        dbContext.TagModel.Attach(tagModel);
+                        dbContext.SaveChanges();
+                        noteTags.NoteId = notesModel.NoteId;
+                        noteTags.TagId = existingTag.TagId;
+                        dbContext.NoteTag.Add(noteTags);
+                        dbContext.SaveChanges();
+                    }
+                    else
+                    {
+                        tagModel.TagItem = tags;
+                        tagModel.IsActive = true;
+                        dbContext.TagModel.Add(tagModel);
+                        dbContext.SaveChanges();
+                        noteTags.NoteId = notesModel.NoteId;
+                        int Tag_Id = int.Parse(dbContext.TagModel
+                               .OrderByDescending(p => p.TagId)
+                               .Select(r => r.TagId)
+                               .First().ToString());
+                        noteTags.TagId = Tag_Id;
+                        dbContext.NoteTag.Add(noteTags);
+                        dbContext.SaveChanges();
+                    }
+                }
             }
-            noteTag = dbContext.NoteTag.Where(x => x.NoteId == notesModel.NoteId).FirstOrDefault();
-            for (int i = 0; i < Tags.Count(); i++)
+            catch(Exception ex)
             {
-                var tags = Tags.ElementAt(i);
-                TagModel existingTag;
-                NoteTag noteTags = new NoteTag();
-                using (var context = new ApplicationDbContext())
-                {
-                    existingTag = (from d in context.TagModel
-                                   where d.TagItem == tags
-                                   select d).SingleOrDefault();
-                }
-                if (existingTag != null)
-                {
-                    tagModel.TagItem = tags;
-                    tagModel.IsActive = true;
-                    dbContext.TagModel.Attach(tagModel);
-                    dbContext.SaveChanges();
-                    noteTags.NoteId = notesModel.NoteId;
-                    noteTags.TagId = existingTag.TagId;
-                    dbContext.NoteTag.Add(noteTags);
-                    dbContext.SaveChanges();
-                }
-                else
-                {
-                    tagModel.TagItem = tags;
-                    tagModel.IsActive = true;
-                    dbContext.TagModel.Add(tagModel);
-                    dbContext.SaveChanges();
-                    noteTags.NoteId = notesModel.NoteId;
-                    int Tag_Id = int.Parse(dbContext.TagModel
-                           .OrderByDescending(p => p.TagId)
-                           .Select(r => r.TagId)
-                           .First().ToString());
-                    noteTags.TagId = Tag_Id;
-                    dbContext.NoteTag.Add(noteTags);
-                    dbContext.SaveChanges();
-                }
+                Console.WriteLine(ex);
             }
-
             return RedirectToAction("ShowNotes", new { id = notesModel.List_Id });
 
         }

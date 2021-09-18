@@ -1,0 +1,12 @@
+﻿#audio {
+    display: block;
+    border-radius: 20px;
+    margin: 0 auto;
+}
+
+.summary {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 5; /* number of lines to show */
+}

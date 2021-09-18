@@ -17,6 +17,7 @@ namespace NoteApp.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        readonly ApplicationDbContext dbContext = new ApplicationDbContext();
 
         public AccountController()
         {
@@ -57,7 +58,7 @@ namespace NoteApp.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
-            ViewBag.ReturnUrl = returnUrl;
+            ViewBag.ReturnUrl = "/List/Index";
             return View();
         }
 
@@ -68,7 +69,8 @@ namespace NoteApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
-
+            var query = dbContext.Users.Where(m => m.UserName.Equals(model.Email)).Select(m => m.FullName).FirstOrDefault();
+            TempData["Name"] = query;
             if (!ModelState.IsValid)
             {
                 return View(model);

@@ -7,12 +7,13 @@
         <section>
             @using (Html.BeginForm("EditLists", "List", FormMethod.Post))
             {
-                @Html.EditorFor(model => model.List_Id, new { htmlAttributes = new { @class = "form-control", style = "display: none;" , @required = "required"} })
+                @Html.AntiForgeryToken()
+
+                @Html.EditorFor(model => model.List_Id, new { htmlAttributes = new { @class = "form-control", style = "display: none;", @required = "required" } })
                 @Html.EditorFor(model => model.UserId, new { htmlAttributes = new { @class = "form-control", style = "display: none;" } })
                 @Html.EditorFor(model => model.IsActive, new { htmlAttributes = new { @class = "form-control", style = "display: none;" } })
                 @Html.AntiForgeryToken()
                 <h4 style=" text-align: center;"></h4> <br>
-
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="form-group">
                     <div class="col-md-10" Style=" width: 400px;align-self:center">
@@ -28,8 +29,8 @@
                 <div class="form-group">
                     <div class="col-md-10">
                         <div class="mb-3">
-                            <label>Created Date :</label>
-                            @Html.EditorFor(model => model.CreatedDate, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", style = "width: 120%; max-width: 134%;" } })
+                            <label style="display: none;">Created Date :</label>
+                            @Html.EditorFor(model => model.CreatedDate, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", style = "width: 120%; max-width: 134%;display: none;" } })
                         </div>
                     </div>
                 </div>
@@ -54,15 +55,13 @@
                         <input type="submit" class="btn btn-primary" value="Update List" style="width: 120%; max-width: 134%;" align-self:center" /><br />
                     </div>
                     <div class="d-flex justify-content-center">
-                        <a href="http://localhost:58940/List" style="width: 120%; max-width: 134%; margin-top:5px;  margin-bottom:5px" align-self:center">
+                        <a href="/List/Index" style="width: 120%; max-width: 134%; margin-top:5px;  margin-bottom:5px" align-self:center">
                             <input type="button" class="btn btn-primary" value="Back to List" style="    width: 101%; max-width: 134%;" />
                         </a>
                     </div>
                     <br />
                 </div>
-
             }
         </section>
     </div>
-
 </div>

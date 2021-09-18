@@ -306,6 +306,10 @@
     <Compile Include="Migrations\202109161122305_AddClmnAspNetUser.designer.cs">
       <DependentUpon>202109161122305_AddClmnAspNetUser.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202109170903077_DataAnnotation.cs" />
+    <Compile Include="Migrations\202109170903077_DataAnnotation.designer.cs">
+      <DependentUpon>202109170903077_DataAnnotation.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -335,13 +339,19 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\css\addNote.css" />
+    <Content Include="Content\css\getLists.css" />
     <Content Include="Content\css\imageModal.css" />
+    <Content Include="Content\css\recenetNotes.css" />
+    <Content Include="Content\css\searchByTag.css" />
     <Content Include="Content\css\select2.css" />
     <Content Include="Content\css\select2.min.css" />
+    <Content Include="Content\css\showNotes.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Scripts\addNote.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
@@ -370,8 +380,10 @@
     <Content Include="Content\bootstrap-grid.rtl.css.map" />
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <None Include="Scripts\jquery-1.7-vsdoc.js" />
+    <Content Include="Scripts\editNote.js" />
     <Content Include="Scripts\i18n\af.js" />
     <Content Include="Scripts\i18n\ar.js" />
     <Content Include="Scripts\i18n\az.js" />
@@ -433,9 +445,12 @@
     <Content Include="Scripts\i18n\zh-TW.js" />
     <Content Include="Scripts\jquery-1.7.js" />
     <Content Include="Scripts\jquery-1.7.min.js" />
+    <Content Include="Scripts\listIndex.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\recentNotes.js" />
     <Content Include="Scripts\select2.js" />
     <Content Include="Scripts\select2.min.js" />
+    <Content Include="Scripts\showNotes.js" />
     <Content Include="Scripts\testing.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -566,6 +581,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202109161122305_AddClmnAspNetUser.resx">
       <DependentUpon>202109161122305_AddClmnAspNetUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202109170903077_DataAnnotation.resx">
+      <DependentUpon>202109170903077_DataAnnotation.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

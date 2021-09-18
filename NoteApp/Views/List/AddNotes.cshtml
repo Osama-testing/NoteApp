@@ -1,14 +1,6 @@
 ﻿@using NoteApp.Models;
 @model ListViewModel
-
-@*@model NoteApp.Models.NotesModel*@
-<style>
-    .editor-field textarea {
-        width: 400px;
-        height: 100px;
-    }
-
-</style>
+<link href="~/Content/css/addNote.css" rel="stylesheet" />
 <br /> <br /> <br />
 <div class="d-flex justify-content-center">
     <div class="col-md-16">
@@ -17,7 +9,6 @@
             {
                 @Html.AntiForgeryToken()
                 <h4 style=" text-align: center;"></h4> <br>
-
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="form-group">
                     <div class="col-md-10">
@@ -37,7 +28,7 @@
                 <div class="form-group">
                     <div class="col-md-10">
                         <div class="mb-3" id="text" style="display:none">
-                            @Html.TextAreaFor(model => model.NotesModel.NoteDesciption, new {id="noteDesciption" ,style = "width: 120%; max-width: 134%;", @class = "form-control", @placeholder = "Enter Note Description" })
+                            @Html.TextAreaFor(model => model.NotesModel.NoteDesciption, new { id = "noteDesciption", style = "width: 120%; max-width: 134%;", @class = "form-control", @placeholder = "Enter Note Description" })
 
                         </div>
                     </div>
@@ -46,13 +37,11 @@
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
                         <div class="mb-3" id="file" style="display:none">
-                            @Html.TextBoxFor(m => m.File, new {id="noteFile" , style = "width: 120%; max-width: 134%;", type = "file", @class = "form-control", @onchange = "readURL(this);" })
+                            @Html.TextBoxFor(m => m.File, new { id = "noteFile", style = "width: 120%; max-width: 134%;", type = "file", @class = "form-control", @onchange = "readURL(this);" })
                             <img id="img" alt="" />
                             <div class="embed-responsive embed-responsive-16by9">
-                                <iframe id="vedio" ></iframe>
-                                <audio id="audio" controls>
-                                    
-                                </audio>
+                                <iframe id="vedio"></iframe>
+                                <audio id="audio" controls></audio>
                             </div>
                         </div>
                     </div>
@@ -66,10 +55,10 @@
                                     {
                                         foreach (var items in @ViewBag.Tags)
                                         {
-                                        <option>@items</option>
-                                            }
+                                            <option>@items</option>
                                         }
                                     }
+                                }
 
                             </select>
                         </div>
@@ -79,10 +68,10 @@
                 <div class="form-group">
                     <div class="d-flex justify-content-center">
                         <input id="btnSubmit" type="button" onclick="validation()" class="btn btn-primary" value="Create Note" style="width: 120%; max-width: 134%;" align-self:center" /><br />
-                    </div> 
+                    </div>
                     <div class="d-flex justify-content-center">
-                        <a href="http://localhost:58940/List"  style="width: 120%; max-width: 134%; margin-top:5px;  margin-bottom:5px" align-self:center">
-                        <input type="button" class="btn btn-primary" value="Back to List" style="    width: 101%; max-width: 134%;" />
+                        <a href="/List/Index" style="width: 120%; max-width: 134%; margin-top:5px;  margin-bottom:5px" align-self:center">
+                            <input type="button" class="btn btn-primary" value="Back to List" style="    width: 101%; max-width: 134%;" />
                         </a>
                     </div>
                     <br />
@@ -91,104 +80,6 @@
             }
         </section>
     </div>
-
 </div>
 <br /> <br /> <br /> <br /> <br /> <br />
-
-
-
-<script>
-    $(document).ready(function () {
-        console.log("ready!");
-        $("img").hide();
-        $("iframe").hide();
-        $("audio").hide();
-
-    });
-    function ShowTextbox() {
-        $("#text").show();
-        $("#file").hide();
-    }
-    function ShowFile() {
-        $("#file").show();
-        $("#text").hide();
-
-    }
-    function readURL(input) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-            var fileTypes = ['jpg', 'jpeg', 'png'];  //acceptable file types
-            var filevedio = ['mp4', 'ever', 'you', 'want'];  //acceptable file types
-            var fileaudio = ['mp3','ogg'];  //acceptable file types
-            var extension = input.files[0].name.split('.').pop().toLowerCase(),  //file extension from input file
-            isImages = fileTypes.indexOf(extension) > -1;  //is extension in acceptable types
-            isVideos = filevedio.indexOf(extension) > -1;  //is extension in acceptable types
-            isAudio = fileaudio.indexOf(extension) > -1;  //is extension in acceptable types
-            console.log(extension);
-            console.log(isImages);
-            console.log(isVideos);
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                if (isImages) {
-                    $("img").show();
-                    $("iframe").hide();
-                    $('#img')
-                        .attr('src', e.target.result)
-                        .width(395)
-                        .height(200);
-                    console.log("img uplaoaded");
-                }
-                else if (isVideos) {
-                    $("img").hide();
-                    $("iframe").show();
-                    $('#vedio')
-                        .attr('src', e.target.result)
-                        .width(395)
-                        .height(200);
-                    console.log("vedio uplaoaded");
-                }
-                else if (isAudio) {
-                    $("img").hide();
-                    $("iframe").hide();
-                    $("audio").show();
-                    $('#audio')
-                        .attr('src', e.target.result)
-                        .width(395)
-                        .height(60);
-                    console.log("audio uplaoaded");
-
-                }
-
-            };
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-
-
-    function test() {
-        var a = $("#tagData").val();
-        console.log(a);
-
-    }
-    $("#tagData").select2({
-        placeholder: 'Select Tag',
-        tags: true,
-        tokenSeparators: [',', ' '],
-        
-    })
-    function validation() {
-                var a = $("#noteDesciption").val();
-        var b = $("#noteFile").val();
-        if (a == "" && b == "") {
-            alert("Please Enter Note !!");
-        }
-        else {
-            $("#btnSubmit").attr('type', 'submit');
-        }
-
-
-    }
-
-
-</script>
-
+<script src="~/Scripts/addNote.js"></script>

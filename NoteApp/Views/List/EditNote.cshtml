@@ -1,121 +1,104 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "EditNote";
-}
-
-@{
-    ViewBag.Title = "Edit";
 }
 @model NoteApp.Models.NotesModel
 <div class="d-flex justify-content-center">
     <div class="col-md-16">
         <section>
-                @using (Html.BeginForm("EditNotes", "List", FormMethod.Post))
-                {
-                    @Html.EditorFor(model => model.UserId, new { htmlAttributes = new { @class = "form-control", style = "display: none;" } })
-                    @Html.EditorFor(model => model.IsActive, new { htmlAttributes = new { @class = "form-control", style = "display: none;" } })
-                    @Html.EditorFor(model => model.List_Id, new { htmlAttributes = new { @class = "form-control", style = "display: none;" } })
-                    @Html.EditorFor(model => model.NoteId, new { htmlAttributes = new { @class = "form-control", style = "display: none;" } })
-                    @Html.EditorFor(model => model.NoteFile, new { htmlAttributes = new { @class = "form-control", style = "display: none;" } })
-                    @Html.AntiForgeryToken()
-                    <h4 style=" text-align: center;"></h4> <br>
-
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                    <div class="form-group">
-                        <div class="col-md-10" Style=" width: 400px;align-self:center">
-                            <h5 style="  text-align: center;">Edit Note</h5>
+            @using (Html.BeginForm("EditNotes", "List", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.EditorFor(model => model.UserId, new { htmlAttributes = new { @class = "form-control", style = "display: none;" } })
+                @Html.EditorFor(model => model.IsActive, new { htmlAttributes = new { @class = "form-control", style = "display: none;" } })
+                @Html.EditorFor(model => model.List_Id, new { htmlAttributes = new { @class = "form-control", style = "display: none;" } })
+                @Html.EditorFor(model => model.NoteId, new { htmlAttributes = new { @class = "form-control", style = "display: none;" } })
+                @Html.EditorFor(model => model.NoteFile, new { htmlAttributes = new { @class = "form-control", style = "display: none;" } })
+                @Html.AntiForgeryToken()
+                <h4 style=" text-align: center;"></h4> <br>
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    <div class="col-md-10" Style=" width: 400px;align-self:center">
+                        <h5 style="  text-align: center;">Edit Note</h5>
+                    </div>
+                </div>
+                <hr />
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <div class="mb-3">
+                            <label style="display: none;">Created Date :</label>
+                            @Html.EditorFor(model => model.CreatedDate, new { htmlAttributes = new { name = "GetListModels", @class = "form-control", style = "width: 120%; max-width: 134%; display: none;", @readonly = "readonly" } })
                         </div>
                     </div>
-                    <hr />
-
-                    <div class="form-group">
-                        <div class="col-md-10">
-                            <div class="mb-3">
-                                <label>Created Date :</label>
-                                @Html.EditorFor(model => model.CreatedDate, new { htmlAttributes = new { name = "GetListModels", @class = "form-control", style = "width: 120%; max-width: 134%;" } })
-                            </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <div class="mb-3">
+                            <label style="display: none;">Last Modified:</label>
+                            @Html.EditorFor(model => model.UpdatedDate, new { htmlAttributes = new { name = "GetListModels", @class = "form-control", style = "width: 120%; max-width: 134%; display: none;", @readonly = "readonly" } })
                         </div>
                     </div>
-                    <div class="form-group">
-                        <div class="col-md-10">
-                            <div class="mb-3">
-                                <label>Last Modified:</label>
-                                @Html.EditorFor(model => model.UpdatedDate, new { htmlAttributes = new { name = "GetListModels", @class = "form-control", style = "width: 120%; max-width: 134%;" } })
-                            </div>
-                        </div>
-                    </div>
+                </div>
 
-                    <div class="form-group">
-                        <div class=" col-md-10">
-                            @if (Model.NoteFile != null)
+                <div class="form-group">
+                    <div class=" col-md-10">
+                        @if (Model.NoteFile != null)
+                        {
+                            FileInfo fi = new FileInfo(Model.NoteFile);
+                            // Get file extension
+                            string extn = fi.Extension;
+                            if (extn == ".mp4")
                             {
-                                FileInfo fi = new FileInfo(Model.NoteFile);
-                                // Get file extension
-                                string extn = fi.Extension;
-                                if (extn == ".mp4")
-                                {
-                                    <video controls="controls" autoplay loop muted width="400" height="300">
-                                        <source src="@Model.NoteFile" type="video/mp4" />
-                                    </video>
-                                }
-                                else if (extn == ".mp3")
-                                {
-                                    <audio id="audio" controls><source src="@Model.NoteFile"></audio>
-                                }
-                                else
-                                {
-
-                                    <img src=" @Model.NoteFile" width="375" height="300">
-
-                                }
+                                <video controls="controls" autoplay loop muted width="400" height="300">
+                                    <source src="@Model.NoteFile" type="video/mp4" />
+                                </video>
                             }
-                            @if (Model.NoteDesciption != null)
+                            else if (extn == ".mp3")
                             {
-                                @Html.TextAreaFor(model => model.NoteDesciption, new { style = "width: 120%; max-width: 134%;height:185px", @class = "form-control", @placeholder = "Enter Note Description" })
+                                <audio id="audio" controls><source src="@Model.NoteFile"></audio>
                             }
-                        </div>
+                            else
+                            {
+
+                                <img src=" @Model.NoteFile" width="375" height="300">
+
+                            }
+                        }
+                        @if (Model.NoteDesciption != null)
+                        {
+                            @Html.TextAreaFor(model => model.NoteDesciption, new { style = "width: 120%; max-width: 134%;height:185px", @class = "form-control", @placeholder = "Enter Note Description" })
+                        }
                     </div>
-                    <div class="form-group">
-                        <div class=" col-md-10">
-                            <select class="form-control" value="1as" required multiple="multiple" id="tagData" name="Tags" style="width: 120%; max-width: 134%;">
-                                @{
-                                    if (@ViewBag.existingTags != null)
+                </div>
+                <div class="form-group">
+                    <div class=" col-md-10">
+                        <select class="form-control" value="1as" required multiple="multiple" id="tagData" name="Tags" style="width: 120%; max-width: 134%;">
+                            @{
+                                if (@ViewBag.existingTags != null)
+                                {
+                                    foreach (var items in @ViewBag.existingTags)
                                     {
-                                        foreach (var items in @ViewBag.existingTags)
-                                        {
-                                            <option selected="selected">@items</option>
-                                        }
+                                        <option selected="selected">@items</option>
                                     }
                                 }
+                            }
 
-                            </select>
-                        </div>
-                    </div><hr />
-
-                    <br>
-
-                    <div class="form-group">
-                        <div class="d-flex justify-content-center">
-                            <input type="submit" class="btn btn-primary" value="Update List" style="width: 120%; max-width: 134%;" align-self:center" /><br />
-                        </div>
-                        <div class="d-flex justify-content-center">
-                            <a href="/List/ShowNotes/@Model.List_Id" style="width: 120%; max-width: 134%; margin-top:5px;  margin-bottom:5px" align-self:center">
-                                <input type="button" class="btn btn-primary" value="Back to List" style="    width: 101%; max-width: 134%;" />
-                            </a>
-                        </div>
-                        <br />
+                        </select>
                     </div>
-
-                }
+                </div><hr />
+                <br>
+                <div class="form-group">
+                    <div class="d-flex justify-content-center">
+                        <input type="submit" class="btn btn-primary" value="Update List" style="width: 120%; max-width: 134%;" align-self:center" /><br />
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <a href="/List/ShowNotes/@Model.List_Id" style="width: 120%; max-width: 134%; margin-top:5px;  margin-bottom:5px" align-self:center">
+                            <input type="button" class="btn btn-primary" value="Back to List" style="    width: 101%; max-width: 134%;" />
+                        </a>
+                    </div>
+                    <br />
+                </div>
+            }
         </section>
     </div>
-
 </div>
-<script>
-    $("#tagData").select2({
-        placeholder: 'Select Tag',
-        tags: true,
-        tokenSeparators: [',', ' '],
-
-    })
-</script>
+<script src="~/Scripts/editNote.js"></script>

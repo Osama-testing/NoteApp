@@ -2,16 +2,13 @@
 @model IPagedList<NoteApp.Models.ListModel>
 @using PagedList;
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
-    #clearbtn {
-        padding-left: 27px;
-        text-align: center;
-        display: table-cell;
-        vertical-align: middle;
-    }
-</style>
-
+<link href="~/Content/css/getLists.css" rel="stylesheet" />
 <span class="badge rounded-pill bg-dark">All List:</span>
+@if (Model.Count() == 0)
+{
+    <br />
+    <span style="margin-left: 574px;" class="badge rounded-pill bg-danger">No List Added Recently..</span>
+}
 <div class="card-deck ">
     <div class="row">
         @foreach (var item in Model)
@@ -37,7 +34,4 @@
     Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
     of @Model.PageCount
     @Html.PagedListPager(Model, page => Url.Action("", new { page = page }))
-
-
-
 </div>

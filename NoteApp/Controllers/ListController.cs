@@ -19,10 +19,13 @@ namespace NoteApp.Controllers
     {
         readonly ApplicationDbContext dbContext = new ApplicationDbContext();
          public   int pageSize = 06;
+        public ListController()
+        {
 
+        }
         public ActionResult Index()
         {
-                return View();
+            return View();
         }
         #region CRUD_List
 
@@ -35,39 +38,39 @@ namespace NoteApp.Controllers
             var getLists = dbContext.ListModel.ToList().Where(x=>x.UserId==userId).OrderByDescending(d => d.List_Id).ToPagedList(pageIndex, pageSize);
             return PartialView("_GetLists", getLists);
         }
-
+        [ValidateAntiForgeryToken]
         public ActionResult AddList(ListModel listModel)
         {
-            ListModel existingName;
-            string userId = User.Identity.GetUserId<string>();
-            using (var context = new ApplicationDbContext())
+            if (ModelState.IsValid)
             {
-                existingName = (from d in context.ListModel
-                               where d.Name == listModel.Name && d.UserId==userId
-                               select d).SingleOrDefault();
-            }
-            if (existingName == null)
-            {
-                //Create New List
-                DateTime dateTime = DateTime.Now;
-                listModel.CreatedDate = dateTime;
-                listModel.UpdatedDate = dateTime;
-                listModel.UserId = userId;
-                listModel.IsActive = true;
-                dbContext.ListModel.Add(listModel);
-                dbContext.SaveChanges();
-                ModelState.Clear();
-            }
-            else
-            {
-                TempData["var"] = "abcd";
-                ViewBag.test = "abcd";
-
-
+                ListModel existingName;
+                string userId = User.Identity.GetUserId<string>();
+                using (var context = new ApplicationDbContext())
+                {
+                    existingName = (from d in context.ListModel
+                                    where d.Name == listModel.Name && d.UserId == userId
+                                    select d).SingleOrDefault();
+                }
+                if (existingName == null)
+                {
+                    //Create New List
+                    DateTime dateTime = DateTime.Now;
+                    listModel.CreatedDate = dateTime;
+                    listModel.UpdatedDate = dateTime;
+                    listModel.UserId = userId;
+                    listModel.IsActive = true;
+                    dbContext.ListModel.Add(listModel);
+                    dbContext.SaveChanges();
+                    ModelState.Clear();
+                }
+                else
+                {
+                    TempData["var"] = "abcd";
+                    ViewBag.test = "abcd";
+                }
             }
             return RedirectToAction("Index", "List");
         }
-
         public ActionResult DeleteList(int? Id, ListModel listModel)
         {
             //Delete List
@@ -99,20 +102,25 @@ namespace NoteApp.Controllers
         [System.Web.Http.HttpPut]
         public ActionResult EditLists(ListModel listModel)
         {
-            //Edit List
-            if (listModel.List_Id != 0)
+            if (ModelState.IsValid)
             {
-                DateTime dateTime = DateTime.Now;
-                listModel.UserId = User.Identity.GetUserId<string>();
-                listModel.UpdatedDate = dateTime;
-                dbContext.Entry(listModel).State = EntityState.Modified;
-                dbContext.SaveChanges();
-                return View("Index");
+                //Edit List
+                if (listModel.List_Id != 0)
+                {
+                    DateTime dateTime = DateTime.Now;
+                    listModel.UserId = User.Identity.GetUserId<string>();
+                    listModel.UpdatedDate = dateTime;
+                    dbContext.Entry(listModel).State = EntityState.Modified;
+                    dbContext.SaveChanges();
+                    return View("Index");
+                }
+                else
+                {
+                    return View("Index");
+                }
             }
-            else
-            {
-                return View("Index");
-            }
+            return View("Index");
+
 
         }
         #endregion
@@ -130,6 +138,7 @@ namespace NoteApp.Controllers
         }
 
         [System.Web.Http.HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult AddNotes(ListViewModel listViewModel, int Id)
         {
                 ListModel existingName;
@@ -154,10 +163,10 @@ namespace NoteApp.Controllers
                 if (listViewModel.File != null)
                 {
                     string str = listViewModel.File.FileName;
-                    string Image = "/UploadedFiles/" + str.ToString();
+                    string mediaFile = "/UploadedFiles/" + str.ToString();
                     string path = Path.Combine(Server.MapPath("~/UploadedFiles"), Path.GetFileName(listViewModel.File.FileName));
                     listViewModel.File.SaveAs(path);
-                    notesModel.NoteFile = Image;
+                    notesModel.NoteFile = mediaFile;
                 }
                 dbContext.NotesModel.Add(notesModel);
                 dbContext.SaveChanges();
@@ -271,16 +280,24 @@ namespace NoteApp.Controllers
         public ActionResult EditNote(int Id)
         {
             //Edit Notes--Get 
-            var  note= dbContext.NotesModel.Where(x => x.NoteId == Id).FirstOrDefault();
-            var tagIds = dbContext.NoteTag.Where(x => x.NoteId == note.NoteId).Select(x=>x.TagId).ToList();
-            List<string> existingTags = new List<string>();
-            ViewBag.existingTags = existingTags;
-            for (int i=0;i<tagIds.Count;i++)
+            string userId = User.Identity.GetUserId<string>();
+            var note = dbContext.NotesModel.Where(x => x.NoteId == Id && x.UserId==userId).FirstOrDefault();
+            if (note == null)
             {
-                int tagId = tagIds.ElementAt(i);
-                var tagItem = dbContext.TagModel.Where(x => x.TagId == tagId).Select(x => x.TagItem).FirstOrDefault();
-                existingTags.Add(tagItem);
+                return Content("Something Going Wrong ...");
+            }
+            else
+            {
+                var tagIds = dbContext.NoteTag.Where(x => x.NoteId == note.NoteId).Select(x => x.TagId).ToList();
+                List<string> existingTags = new List<string>();
+                ViewBag.existingTags = existingTags;
+                for (int i = 0; i < tagIds.Count; i++)
+                {
+                    int tagId = tagIds.ElementAt(i);
+                    var tagItem = dbContext.TagModel.Where(x => x.TagId == tagId).Select(x => x.TagItem).FirstOrDefault();
+                    existingTags.Add(tagItem);
 
+                }
             }
             return View(note);          
         }

@@ -15,6 +15,7 @@
 }
 else
 {
+    
     <br />
     <a href="/List/Index" class=" btn btn-secondary">
         <i class="fa fa-arrow-circle-left" style="font-size:24px"></i>
@@ -23,12 +24,15 @@ else
     var a = Model.Count();
     <button class=" btn btn-secondary" style="float:right">
       Total Notes: &nbsp; @a
-    </button>
+    </button> 
+    <a class=" btn btn-secondary" style="float:right; margin-right: 10px;" href="/List/AddNotes/@Url.RequestContext.RouteData.Values["id"]">
+        <i class="fa fa-plus"></i>
+        Add More Notes 
+    </a>
     <div class="card-deck ">
         <div class="row">
             @foreach (var item in Model)
             {
-
                 <!-- Display a div of col-sm-3 containing the card up to n number of times, ie in a loop -->
                 <div class="card border-dark mb-3" style="max-width: 26rem;margin-left:16px;">
                     <div class="card-header bg-transparent border-success" style="text-align:center">

@@ -223,10 +223,10 @@ namespace NoteApp.Controllers
                 else
                 {
                 }
-            return View("AddNotes");
+            return RedirectToAction("ShowNotes", new { Id = Id });
         }
         #endregion
-   
+
         public ActionResult ShowNotes(int Id)
         {
             //Show Note of Specific List

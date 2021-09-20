@@ -57,7 +57,26 @@ else
                             }
                             else
                             {
-                                <img src=" @item.NoteFile" width="375" height="300">
+                                <a href="#" class="pop">
+                                    <img src="@item.NoteFile" width="375" height="300">
+                                </a>
+                                <div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog  modal-fullscreen" data-dismiss="modal">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="staticBackdropLabel"></h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <img src="" class="imagepreview" style="width: 60%;">
+                                            </div>
+                                            <div class="modal-footer">
+                                                <div class="col-xs-12">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             }
                         }
                         @{
@@ -87,7 +106,7 @@ else
                                 }
                                 else
                                 {
-                                    <p  align="center">@item.NoteDesciption</p>
+                                    <p align="center">@item.NoteDesciption</p>
                                 }
 
                             }
@@ -122,7 +141,14 @@ else
 
             }
         });
-    }
+        }
+
+    $(function () {
+    $('.pop').on('click', function () {
+        $('.imagepreview').attr('src', $(this).find('img').attr('src'));
+        $('#imagemodal').modal('show');
+    });
+});
 
 </script>
 

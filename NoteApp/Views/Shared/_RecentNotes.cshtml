@@ -41,14 +41,14 @@
                                     <img src="@item.NoteFile" style="width: 200px; height: 300px;">
                                 </a>
                                 <div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog" data-dismiss="modal">
+                                    <div class="modal-dialog  modal-fullscreen" data-dismiss="modal">
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h5 class="modal-title" id="staticBackdropLabel"></h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                                <img src="" class="imagepreview" style="width: 100%;">
+                                                <img src="" class="imagepreview" style="width: 60%;">
                                             </div>
                                             <div class="modal-footer">
                                                 <div class="col-xs-12">
@@ -72,7 +72,7 @@
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <p id="123"></p>
+                                            <p id="noteText"></p>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -105,10 +105,7 @@
     </div>
 </div>
 <script src="~/Scripts/recentNotes.js"></script>
-
 <script type="text/javascript">
-
-
     function noteDetail(id) {
         console.log(id)
         $.ajax({
@@ -117,11 +114,10 @@
             dataType: 'json',
             success: function (result) {
                 console.log(result)
-                $('#123').empty();
-                $('#123').append(result);
+                $('#noteText').empty();
+                $('#noteText').append(result);
 
             }
         });
     }
-
 </script>

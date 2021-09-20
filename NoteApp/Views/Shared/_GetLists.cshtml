@@ -17,10 +17,10 @@
             <div class="card border-dark mb-3" style="max-width: 26rem;margin-left:16px;">
                 <div class="card-header bg-transparent border-success" style="text-align:center"> @item.Name</div>
                 <div class="card-body text-success" style="text-align:center">
-                    <a href="@Url.Action("AddNotes", "List", new { Id = item.List_Id })" class="btn btn-secondary btn-sm" style="margin-left: -16px;"> <img src="https://img.icons8.com/office/16/000000/add--v2.png" />Add Notes </a>
+                    <a href="@Url.Action("AddNotes", "Note", new { Id = item.List_Id })" class="btn btn-secondary btn-sm" style="margin-left: -16px;"> <img src="https://img.icons8.com/office/16/000000/add--v2.png" />Add Notes </a>
                     <a href="@Url.Action("EditList","List", new { id = item.List_Id })" class="btn btn-secondary btn-sm"><img src="https://img.icons8.com/ios-glyphs/16/000000/edit--v2.png" />Edit List</a>
                     <a href="@Url.Action("DeleteList","List", new { id = item.List_Id })" class="btn btn-secondary btn-sm" onclick="return confirm('Are you sure you to delete this Record?');"><img src="https://img.icons8.com/fluency/16/000000/delete-sign.png" />Delete </a>
-                    <a href="@Url.Action("ShowNotes","List", new { id = item.List_Id })" class="btn btn-secondary btn-sm"><img src="https://img.icons8.com/ios/16/000000/visible.png" />View Notes</a>
+                    <a href="@Url.Action("ShowNotes","Note", new { id = item.List_Id })" class="btn btn-secondary btn-sm"><img src="https://img.icons8.com/ios/16/000000/visible.png" />View Notes</a>
                     <p class="card-text"></p>
                 </div>
                 <div class="card-footer bg-transparent border-success" style="text-align:center">

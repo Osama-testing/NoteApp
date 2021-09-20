@@ -28,7 +28,7 @@ function SearchByTags() {
     }
     else {
         console.log(tagitem);
-        window.location.href = "/List/SearchByTags?Tag=" + tagitem;
+        window.location.href = "/Note/SearchByTags?Tag=" + tagitem;
     }
 
 }

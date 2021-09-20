@@ -199,6 +199,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ListController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\NoteController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -490,6 +491,10 @@
     <Content Include="Views\Shared\_RecentNotes.cshtml" />
     <Content Include="Views\List\SearchByTags.cshtml" />
     <Content Include="Views\List\EditNote.cshtml" />
+    <Content Include="Views\Note\ShowNotes.cshtml" />
+    <Content Include="Views\Note\SearchByTags.cshtml" />
+    <Content Include="Views\Note\EditNote.cshtml" />
+    <Content Include="Views\Note\AddNotes.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

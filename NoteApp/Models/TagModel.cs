@@ -12,6 +12,7 @@ namespace NoteApp.Models
     {
         [Key]
         public int TagId { get; set; }
+        [Required]
         public string TagItem { get; set; }
         public bool IsActive { get; set; }
     }

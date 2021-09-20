@@ -14,6 +14,8 @@ namespace NoteApp.Controllers
     {
         readonly ApplicationDbContext dbContext = new ApplicationDbContext();
         public int pageSize = 06;
+        DateTime dateTime = DateTime.Now;
+
         #region AddNotes
 
         [System.Web.Mvc.HttpGet]
@@ -40,7 +42,6 @@ namespace NoteApp.Controllers
             }
             if (existingName != null)
             {
-                DateTime dateTime = DateTime.Now;
                 //For List Notes 
                 NotesModel notesModel = new NotesModel();
                 notesModel.UserId = userId;

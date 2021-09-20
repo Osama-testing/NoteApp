@@ -17,8 +17,12 @@ namespace NoteApp.Controllers
     [Authorize]
     public class ListController : Controller
     {
-        readonly ApplicationDbContext dbContext = new ApplicationDbContext();
+         readonly ApplicationDbContext dbContext = new ApplicationDbContext();
          public   int pageSize = 06;
+         public int pageIndex = 1;
+         DateTime dateTime = DateTime.Now;
+
+
         public ActionResult Index()
         {
             return View();
@@ -28,7 +32,6 @@ namespace NoteApp.Controllers
         public PartialViewResult GetLists(int? page)
         {
             //Get All lists of login User
-            int pageIndex = 1;
             pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
             string userId = User.Identity.GetUserId<string>();
             var getLists = dbContext.ListModel.ToList().Where(x=>x.UserId==userId).OrderByDescending(d => d.List_Id).ToPagedList(pageIndex, pageSize);
@@ -50,7 +53,6 @@ namespace NoteApp.Controllers
                 if (existingName == null)
                 {
                     //Create New List
-                    DateTime dateTime = DateTime.Now;
                     listModel.CreatedDate = dateTime;
                     listModel.UpdatedDate = dateTime;
                     listModel.UserId = userId;
@@ -103,7 +105,6 @@ namespace NoteApp.Controllers
                 //Edit List
                 if (listModel.List_Id != 0)
                 {
-                    DateTime dateTime = DateTime.Now;
                     listModel.UserId = User.Identity.GetUserId<string>();
                     listModel.UpdatedDate = dateTime;
                     dbContext.Entry(listModel).State = EntityState.Modified;

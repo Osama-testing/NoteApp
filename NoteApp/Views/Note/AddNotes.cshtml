@@ -36,7 +36,7 @@
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
                         <div class="mb-3" id="file" style="display:none">
-                            @Html.TextBoxFor(m => m.File, new { id = "noteFile", style = "width: 120%; max-width: 134%;", type = "file", @class = "form-control", @onchange = "readURL(this);" })
+                            @Html.TextBoxFor(m => m.File, new {accept=".mp4,.mp3,.jpg,.jpeg,.png" , id = "noteFile", style = "width: 120%; max-width: 134%;", type = "file", @class = "form-control", @onchange = "readURL(this);" })
                             <img id="img" alt="" />
                             <div class="embed-responsive embed-responsive-16by9">
                                 <iframe id="vedio"></iframe>

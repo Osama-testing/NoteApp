@@ -30,6 +30,7 @@ function readURL(input) {
         var reader = new FileReader();
         reader.onload = function (e) {
             if (isImages) {
+                $("audio").hide();
                 $("img").show();
                 $("iframe").hide();
                 $('#img')
@@ -39,6 +40,7 @@ function readURL(input) {
                 console.log("img uplaoaded");
             }
             else if (isVideos) {
+                $("#audio").hide();
                 $("img").hide();
                 $("iframe").show();
                 $('#vedio')

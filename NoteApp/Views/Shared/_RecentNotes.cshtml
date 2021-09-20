@@ -62,10 +62,32 @@
                         }
                         @if (item.NoteDesciption != null)
                         {
-                            <p id="notetext" style="text-align:center" class="card-text summary">@item.NoteDesciption</p>
-                            if (item.NoteDesciption != null && item.NoteDesciption.Length > 30)
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Note Description</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p id="123"></p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            if (item.NoteDesciption.Length >= 200)
                             {
-                                <a id="readmore" class="btn btn-light" href="#">Read More</a>
+                                <p id="notetext" style="text-align:center" class="card-text  ">@item.NoteDesciption.ToString().Substring(0, 200)</p>
+                                <button onclick="noteDetail(@item.NoteId)" class="btn btn-light btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">Read More </button>
+                            }
+                            else
+                            {
+                                <p>@item.NoteDesciption</p>
                             }
                         }
                     </div>
@@ -84,3 +106,22 @@
 </div>
 <script src="~/Scripts/recentNotes.js"></script>
 
+<script type="text/javascript">
+
+
+    function noteDetail(id) {
+        console.log(id)
+        $.ajax({
+            type: 'GET',
+            url: "http://localhost:58940/Note/NoteDetail/" + id,
+            dataType: 'json',
+            success: function (result) {
+                console.log(result)
+                $('#123').empty();
+                $('#123').append(result);
+
+            }
+        });
+    }
+
+</script>

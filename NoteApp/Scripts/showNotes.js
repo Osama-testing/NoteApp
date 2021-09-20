@@ -7,3 +7,4 @@
         $(this).text('less');
     }
 });
+

@@ -110,7 +110,7 @@
         console.log(id)
         $.ajax({
             type: 'GET',
-            url: "http://localhost:58940/Note/NoteDetail/" + id,
+            url: "/Note/NoteDetail/" + id,
             dataType: 'json',
             success: function (result) {
                 console.log(result)

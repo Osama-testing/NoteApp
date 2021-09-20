@@ -485,12 +485,8 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\List\Index.cshtml" />
     <Content Include="Views\Shared\_GetLists.cshtml" />
-    <Content Include="Views\List\AddNotes.cshtml" />
     <Content Include="Views\List\EditList.cshtml" />
-    <Content Include="Views\List\ShowNotes.cshtml" />
     <Content Include="Views\Shared\_RecentNotes.cshtml" />
-    <Content Include="Views\List\SearchByTags.cshtml" />
-    <Content Include="Views\List\EditNote.cshtml" />
     <Content Include="Views\Note\ShowNotes.cshtml" />
     <Content Include="Views\Note\SearchByTags.cshtml" />
     <Content Include="Views\Note\EditNote.cshtml" />

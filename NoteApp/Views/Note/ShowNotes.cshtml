@@ -15,7 +15,7 @@
 }
 else
 {
-    
+
     <br />
     <a href="/List/Index" class=" btn btn-secondary">
         <i class="fa fa-arrow-circle-left" style="font-size:24px"></i>
@@ -23,11 +23,11 @@ else
     </a>
     var a = Model.Count();
     <button class=" btn btn-secondary" style="float:right">
-      Total Notes: &nbsp; @a
-    </button> 
+        Total Notes: &nbsp; @a
+    </button>
     <a class=" btn btn-secondary" style="float:right; margin-right: 10px;" href="/Note/AddNotes/@Url.RequestContext.RouteData.Values["id"]">
         <i class="fa fa-plus"></i>
-        Add More Notes 
+        Add More Notes
     </a>
     <div class="card-deck ">
         <div class="row">
@@ -62,13 +62,13 @@ else
 
                             }
                         }
-                        @{ 
+                        @{
                             if (item.NoteDesciption != null)
                             {
-                            <p id="notetext" style="text-align:center" class="card-text summary">@item.NoteDesciption</p>
-                                if (item.NoteDesciption != null && item.NoteDesciption.Length > 250)
+                                <p id="notetext" style="text-align:center" class="card-text summary">@item.NoteDesciption</p>
+                                if (item.NoteDesciption != null && item.NoteDesciption.Length > 30)
                                 {
-                                <a id="readmore" class="btn btn-light btn-sm" href="#">Read More</a>
+                                    <a id="readmore" class="btn btn-light btn-sm" href="#">Read More</a>
                                 }
                             }
                         }
@@ -76,11 +76,15 @@ else
                         <a href="@Url.Action("EditNote", "Note", new { id = item.NoteId })" class="btn btn-light btn-sm">Edit </a>
                     </div>
                     <div class="card-footer bg-transparent border-success" style="text-align:center">
-                        <span class="badge bg-secondary">Created Date: &nbsp;@item.CreatedDate</span>
+                        <span class="badge bg-secondary">Created Datese: &nbsp;@item.CreatedDate</span>
                     </div>
-                </div>                              
-                            }
+                </div>
+            }
         </div>
     </div>
 }
 <link href="~/Content/css/showNotes.css" rel="stylesheet" />
+<script src="~/Scripts/showNotes.js"></script>
+
+
+

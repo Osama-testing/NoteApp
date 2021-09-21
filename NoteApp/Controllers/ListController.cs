@@ -23,6 +23,11 @@ namespace NoteApp.Controllers
          public   int pageSize = 06;
          public int pageIndex = 1;
          DateTime dateTime = DateTime.Now;
+        string userId;
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            userId = User.Identity.GetUserId<string>();
+        }
         public ActionResult Index()
         {
             return View();
@@ -33,7 +38,6 @@ namespace NoteApp.Controllers
         {
             //Get All lists of login User
             pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
-            string userId = User.Identity.GetUserId<string>();
             var getLists = dbContext.ListModel.ToList().Where(x=>x.UserId==userId).OrderByDescending(d => d.List_Id).ToPagedList(pageIndex, pageSize);
             return PartialView("_GetLists", getLists);
         }
@@ -43,7 +47,6 @@ namespace NoteApp.Controllers
             if (ModelState.IsValid)
             {
                 ListModel existingName;
-                string userId = User.Identity.GetUserId<string>();
                 using (var context = new ApplicationDbContext())
                 {
                     existingName = (from d in context.ListModel
@@ -83,7 +86,6 @@ namespace NoteApp.Controllers
         public ActionResult EditList(int Id)
         {
             //Edit List
-            string userId = User.Identity.GetUserId<string>();           
             var a = dbContext.ListModel.Where(x => x.List_Id == Id && x.UserId==userId).FirstOrDefault();
             if (a!=null)
             {

@@ -17,7 +17,11 @@ namespace NoteApp.Controllers
         public int pageSize = 06;
         DateTime dateTime = DateTime.Now;
         public int pageIndex = 1;
-
+        string userId;
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            userId = User.Identity.GetUserId<string>();
+        }
         #region AddNotes
 
         [System.Web.Mvc.HttpGet]
@@ -35,7 +39,6 @@ namespace NoteApp.Controllers
         {
 
             ListModel existingList;
-            string userId = User.Identity.GetUserId<string>();
             using (var context = new ApplicationDbContext())
             {
                 existingList = (from d in context.ListModel
@@ -123,7 +126,6 @@ namespace NoteApp.Controllers
         public ActionResult ShowNotes(int Id, int? Page)
         {
             //Show Note of Specific List
-            string userId = User.Identity.GetUserId<string>();
             pageIndex = Page.HasValue ? Convert.ToInt32(Page) : 1;
             var note = dbContext.NotesModel.Where(x => x.List_Id == Id && x.UserId == userId).OrderByDescending(x => x.NoteId).ToPagedList(pageIndex, pageSize); ;
             return View(note);
@@ -132,7 +134,6 @@ namespace NoteApp.Controllers
         public PartialViewResult RecentNotes()
         {
             //Recent Notes
-            string userId = User.Identity.GetUserId<string>();
             var notes = dbContext.NotesModel.Where(x => x.UserId == userId).OrderByDescending(x => x.UpdatedDate).Take(4);
             return PartialView("_RecentNotes", notes);
         }
@@ -140,7 +141,6 @@ namespace NoteApp.Controllers
         public ActionResult SearchByTags(String Tag)
         {
             //Search Notes by Tags 
-            string userId = User.Identity.GetUserId<string>();
             int tagId = dbContext.TagModel.Where(x => x.TagItem == Tag).Select(x => x.TagId).FirstOrDefault();
             var noteId = dbContext.NoteTag
                                   .Where(d => d.TagId == tagId).ToList()
@@ -181,7 +181,6 @@ namespace NoteApp.Controllers
         public ActionResult EditNote(int Id)
         {
             //Edit Notes--Get 
-            string userId = User.Identity.GetUserId<string>();
             var note = dbContext.NotesModel.Where(x => x.NoteId == Id && x.UserId == userId).FirstOrDefault();
             if (note == null)
             {

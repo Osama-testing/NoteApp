@@ -34,15 +34,15 @@ namespace NoteApp.Controllers
         public ActionResult AddNotes(ListViewModel listViewModel, int Id)
         {
 
-            ListModel existingName;
+            ListModel existingList;
             string userId = User.Identity.GetUserId<string>();
             using (var context = new ApplicationDbContext())
             {
-                existingName = (from d in context.ListModel
+                existingList = (from d in context.ListModel
                                 where d.List_Id == Id && d.UserId == userId
                                 select d).SingleOrDefault();
             }
-            if (existingName != null)
+            if (existingList != null)
             {
                 //For List Notes 
                 NotesModel notesModel = new NotesModel();
@@ -114,11 +114,9 @@ namespace NoteApp.Controllers
                         }
                     }
                 }
+                return RedirectToAction("ShowNotes", new { Id = Id });
             }
-            else
-            {
-            }
-            return RedirectToAction("ShowNotes", new { Id = Id });
+            return Content("Something going wrong !");
         }
         #endregion
 

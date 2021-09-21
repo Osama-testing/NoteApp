@@ -1,4 +1,5 @@
-﻿@{
+﻿
+@{
     ViewBag.Title = "Index";
 }
 @using NoteApp.Models;
@@ -11,7 +12,7 @@
 </div>
 <hr style=" border: 5px solid green; border-radius: 10px;" />
 <button type="button" class="btn btn-secondary" onclick="txtboxShow()">Create List</button>&nbsp;&nbsp;&nbsp;&nbsp;
-@if ((string)TempData["var"] == "abcd")
+@if ((string)TempData["list"] == "AlreadyExists")
 {
     <span class="badge rounded-pill bg-danger" id="validation">Already Exist,Please Try Another Name for List !!</span>
 }
@@ -20,15 +21,18 @@
     @using (Html.BeginForm("AddList", "List", FormMethod.Post))
     {
         @Html.AntiForgeryToken()
-        <form>
-            @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @placeholder = "Enter List Name", @required = "required" ,@style=" width: 300px !important;"})
-            <br />
-            <input type="submit" value="Submit" class="btn btn-success">
-        </form>
+        @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @placeholder = "Enter List Name", @required = "required", @style = " width: 300px !important;" })
+        @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+        <br />
+        <input type="submit" value="Submit" class="btn btn-success">
+
     }
 </div>
+
 <hr style=" border: 5px solid green; border-radius: 10px;" />
 @{Html.RenderAction("RecentNotes", "Note");}
 <hr style=" border: 5px solid green; border-radius: 10px;" />
 @{Html.RenderAction("GetLists", "List");}
 <script src="~/Scripts/listIndex.js"></script>
+
+

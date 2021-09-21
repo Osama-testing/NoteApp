@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
 using NoteApp.Models;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -15,6 +16,7 @@ namespace NoteApp.Controllers
         readonly ApplicationDbContext dbContext = new ApplicationDbContext();
         public int pageSize = 06;
         DateTime dateTime = DateTime.Now;
+        public int pageIndex = 1;
 
         #region AddNotes
 
@@ -120,11 +122,12 @@ namespace NoteApp.Controllers
         }
         #endregion
 
-        public ActionResult ShowNotes(int Id)
+        public ActionResult ShowNotes(int Id, int? Page)
         {
             //Show Note of Specific List
             string userId = User.Identity.GetUserId<string>();
-            var note = dbContext.NotesModel.Where(x => x.List_Id == Id && x.UserId == userId).OrderByDescending(x => x.NoteId).ToList();
+            pageIndex = Page.HasValue ? Convert.ToInt32(Page) : 1;
+            var note = dbContext.NotesModel.Where(x => x.List_Id == Id && x.UserId == userId).OrderByDescending(x => x.NoteId).ToPagedList(pageIndex, pageSize); ;
             return View(note);
         }
 
@@ -149,7 +152,10 @@ namespace NoteApp.Controllers
             {
                 int _noteId = noteId.ElementAt(j);
                 var note = dbContext.NotesModel.Where(x => x.NoteId == _noteId && x.UserId == userId).FirstOrDefault();
-                notesModel.Add(note);
+                if (note != null)
+                {
+                    notesModel.Add(note);
+                }
             }
             return View(notesModel);
         }

@@ -69,8 +69,7 @@ namespace NoteApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
-            var query = dbContext.Users.Where(m => m.UserName.Equals(model.Email)).Select(m => m.FullName).FirstOrDefault();
-            TempData["Name"] = query;
+            returnUrl = "/List/Index";
             if (!ModelState.IsValid)
             {
                 return View(model);

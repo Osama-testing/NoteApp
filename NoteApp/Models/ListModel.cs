@@ -11,9 +11,10 @@ namespace NoteApp.Models
     public class ListModel
     {
         [Key]
-        public int List_Id { get; set; }          
+        public int List_Id { get; set; }
         public string UserId { get; set; }                  //Foreign key--Created By
         [Required]
+        [MaxLength(20, ErrorMessage = "ListName must be 20 characters or less")]
         public string Name { get; set; }    
         public DateTime CreatedDate { get; set; }     //When user create the List
         public DateTime UpdatedDate { get; set; }     //When user update the List

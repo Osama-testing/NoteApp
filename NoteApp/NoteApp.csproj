@@ -307,6 +307,22 @@
     <Compile Include="Migrations\202109161122305_AddClmnAspNetUser.designer.cs">
       <DependentUpon>202109161122305_AddClmnAspNetUser.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202109210513016_AddValidationListTbl.cs" />
+    <Compile Include="Migrations\202109210513016_AddValidationListTbl.designer.cs">
+      <DependentUpon>202109210513016_AddValidationListTbl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202109210527213_ValidationOnUserId.cs" />
+    <Compile Include="Migrations\202109210527213_ValidationOnUserId.designer.cs">
+      <DependentUpon>202109210527213_ValidationOnUserId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202109210551479_Validations.cs" />
+    <Compile Include="Migrations\202109210551479_Validations.designer.cs">
+      <DependentUpon>202109210551479_Validations.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202109210600471_RemoveValidationListtlb.cs" />
+    <Compile Include="Migrations\202109210600471_RemoveValidationListtlb.designer.cs">
+      <DependentUpon>202109210600471_RemoveValidationListtlb.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -440,6 +456,7 @@
     <Content Include="Scripts\i18n\vi.js" />
     <Content Include="Scripts\i18n\zh-CN.js" />
     <Content Include="Scripts\i18n\zh-TW.js" />
+    <Content Include="Scripts\imageTextModal.js" />
     <Content Include="Scripts\jquery-1.7.js" />
     <Content Include="Scripts\jquery-1.7.min.js" />
     <Content Include="Scripts\listIndex.js" />
@@ -491,6 +508,7 @@
     <Content Include="Views\Note\SearchByTags.cshtml" />
     <Content Include="Views\Note\EditNote.cshtml" />
     <Content Include="Views\Note\AddNotes.cshtml" />
+    <Content Include="Views\Shared\_SearchByTag.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -578,6 +596,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202109161122305_AddClmnAspNetUser.resx">
       <DependentUpon>202109161122305_AddClmnAspNetUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202109210513016_AddValidationListTbl.resx">
+      <DependentUpon>202109210513016_AddValidationListTbl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202109210527213_ValidationOnUserId.resx">
+      <DependentUpon>202109210527213_ValidationOnUserId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202109210551479_Validations.resx">
+      <DependentUpon>202109210551479_Validations.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202109210600471_RemoveValidationListtlb.resx">
+      <DependentUpon>202109210600471_RemoveValidationListtlb.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

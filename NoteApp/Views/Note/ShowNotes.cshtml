@@ -1,6 +1,9 @@
-﻿@*@using NoteApp.Models;
-    @model ListViewModel*@
-@model IEnumerable<NoteApp.Models.NotesModel>
+﻿@*@using PagedList.Mvc;
+    @model IPagedList<NoteApp.Models.NotesModel>
+    @using PagedList;*@
+@using PagedList.Mvc;
+@using PagedList;
+@model IPagedList<NoteApp.Models.NotesModel>
 @{
     ViewBag.Title = "ShowNotes";
 }
@@ -36,7 +39,7 @@ else
                 <!-- Display a div of col-sm-3 containing the card up to n number of times, ie in a loop -->
                 <div class="card border-dark mb-3" style="max-width: 26rem;margin-left:16px;">
                     <div class="card-header bg-transparent border-success" style="text-align:center">
-                        <span class="badge bg-secondary">Note Id: &nbsp;@item.NoteId</span>
+                        <span class="badge bg-secondary">Note @*Id: &nbsp;@item.NoteId*@</span>
                     </div>
                     <div class="card-body text-success" style="text-align:center">
 
@@ -60,6 +63,7 @@ else
                                 <a href="#" class="pop">
                                     <img src="@item.NoteFile" width="375" height="300">
                                 </a>
+                                <!-- Modal -->
                                 <div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                     <div class="modal-dialog  modal-fullscreen" data-dismiss="modal">
                                         <div class="modal-content">
@@ -72,6 +76,7 @@ else
                                             </div>
                                             <div class="modal-footer">
                                                 <div class="col-xs-12">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -84,14 +89,14 @@ else
                             {
                                 <!-- Modal -->
                                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
+                                    <div class="modal-dialog modal-dialog-scrollable">
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h5 class="modal-title" id="exampleModalLabel">Note Description</h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                                <p id="123"></p>
+                                                <p id="noteText"></p>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -121,34 +126,15 @@ else
             }
         </div>
     </div>
+    <div id='Paging' style="text-align:right">
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
+        of @Model.PageCount
+        @Html.PagedListPager(Model, page => Url.Action("ShowNotes", new { page = page }))
+    </div>
 }
 
+
+
 <link href="~/Content/css/showNotes.css" rel="stylesheet" />
-<script src="~/Scripts/showNotes.js"></script>
-<script type="text/javascript">
-
-
-    function noteDetail(id) {
-        console.log(id)
-        $.ajax({
-            type: 'GET',
-            url: "/Note/NoteDetail/" + id,
-            dataType: 'json',
-            success: function (result) {
-                console.log(result)
-                $('#123').empty();
-                $('#123').append(result);
-
-            }
-        });
-        }
-
-    $(function () {
-    $('.pop').on('click', function () {
-        $('.imagepreview').attr('src', $(this).find('img').attr('src'));
-        $('#imagemodal').modal('show');
-    });
-});
-
-</script>
+<script src="~/Scripts/imageTextModal.js"></script>
 

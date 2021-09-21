@@ -11,6 +11,8 @@ using System.Web.Http;
 using System.Web.Mvc;
 using AuthorizeAttribute = System.Web.Mvc.AuthorizeAttribute;
 using HttpGetAttribute = System.Web.Http.HttpGetAttribute;
+using System.Security.Claims;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace NoteApp.Controllers
 {
@@ -21,8 +23,6 @@ namespace NoteApp.Controllers
          public   int pageSize = 06;
          public int pageIndex = 1;
          DateTime dateTime = DateTime.Now;
-
-
         public ActionResult Index()
         {
             return View();
@@ -63,11 +63,12 @@ namespace NoteApp.Controllers
                 }
                 else
                 {
-                    TempData["var"] = "abcd";
-                    ViewBag.test = "abcd";
+                    TempData["list"] = "AlreadyExists";
                 }
+
+                return RedirectToAction("Index", "List");
             }
-            return RedirectToAction("Index", "List");
+            return View("Index",listModel);
         }
         public ActionResult DeleteList(int? Id, ListModel listModel)
         {
@@ -87,11 +88,10 @@ namespace NoteApp.Controllers
             if (a!=null)
             {
                 return View(a);
-
             }
             else
             {
-                TempData["var"] = "qwerty";
+                TempData["list"] = "WrongId";
             }
             return View();
 

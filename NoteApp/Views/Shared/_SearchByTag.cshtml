@@ -1,22 +1,34 @@
 ﻿
 @model IEnumerable<NoteApp.Models.NotesModel>
-<link href="~/Content/css/recenetNotes.css" rel="stylesheet" />
-<span class="badge rounded-pill bg-dark">Recent Add/Modified :</span>
-@if (Model.Count() == 0)
+@*@if (Model.Count() == 0)
 {
-    <br />
-    <span style="margin-left: 574px;" class="badge rounded-pill bg-danger">No Note Added Recently..</span>
+    @*<img src="https://cdn.dribbble.com/users/1135689/screenshots/3957784/no-result-found.png" class="center" />
+    <a href="/List/Index" class="center btn btn-primary">
+        <i class="fa fa-arrow-circle-left" style="font-size:24px"></i>
+        Back to List
+    </a>
 }
-<div class="card-deck ">
-    <div class="row">
-        @foreach (var item in Model)
-        {
-            if (Model != null)
+else*@
+@{
+    <br />
+    <a href="/List/Index" class=" btn btn-secondary">
+        <i class="fa fa-arrow-circle-left" style="font-size:24px"></i>
+        Back to List
+    </a>
+    var a = Model.Count();
+    <button class=" btn btn-secondary" style="float:right">
+        Total Notes: &nbsp; @a
+    </button>
+    <div class="card-deck ">
+        <div class="row">
+            @foreach (var item in Model)
             {
+                if (item != null)
+                {
                 <!-- Display a div of col-sm-3 containing the card up to n number of times, ie in a loop -->
-                <div class="card border-dark mb-3" style="max-width: 16rem;margin-left:16px;">
+                <div class="card border-dark mb-3" style="max-width: 26rem;margin-left:16px;">
                     <div class="card-header bg-transparent border-success" style="text-align:center">
-                        <span class="badge bg-secondary">Note @*Id: &nbsp;@item.NoteId*@</span>
+                        <span class="badge bg-secondary">Note Id: &nbsp;@item.NoteId</span>
                     </div>
                     <div class="card-body text-success" style="text-align:center">
                         @if (item.NoteFile != null)
@@ -26,40 +38,17 @@
                             string extn = fi.Extension;
                             if (extn == ".mp4")
                             {
-                                <video controls="controls" loop autoplay muted width="200" height="300">
+                                <video controls="controls" width="375" height="300">
                                     <source src="@item.NoteFile" type="video/mp4" />
                                 </video>
                             }
                             else if (extn == ".mp3")
                             {
-                                <audio id="audio" controls style="  width: 230px; margin-left: -17px; margin-top: 121px"><source src="@item.NoteFile"></audio>
+                                <audio id="audio" controls><source src="@item.NoteFile"></audio>
                             }
                             else
                             {
-                                <a href="#" class="pop">
-                                    <img src="@item.NoteFile" style="width: 200px; height: 300px;">
-                                </a>
-                                <!-- Modal -->
-                                <div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog  modal-fullscreen" data-dismiss="modal">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="staticBackdropLabel"></h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <img src="" class="imagepreview" style="width: 60%;">
-                                            </div>
-                                            <div class="modal-footer">
-                                                <div class="col-xs-12">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
+                                <img src=" @item.NoteFile" width="375" height="300">
                             }
                         }
                         @if (item.NoteDesciption != null)
@@ -94,17 +83,28 @@
                             }
                         }
                     </div>
-
                     <div class="card-footer bg-transparent border-success" style="text-align:center">
-                        <span class="badge bg-secondary" style="margin-left: -13px;">Created Date: &nbsp;@item.CreatedDate</span>
+                        <span class="badge bg-secondary">Created Date: &nbsp;@item.CreatedDate</span>
                     </div>
                 </div>
+                }
             }
-            else
-            {
-                <h5 style="text-align:center">Not Found !!</h5>
-            }
-        }
+        </div>
     </div>
-</div>
-<script src="~/Scripts/imageTextModal.js"></script>
+}
+<link href="~/Content/css/searchByTag.css" rel="stylesheet" />
+<script type="text/javascript">
+    function noteDetail(id) {
+        console.log(id)
+        $.ajax({
+            type: 'GET',
+            url: "/Note/NoteDetail/" + id,
+            dataType: 'json',
+            success: function (result) {
+                console.log(result)
+                $('#noteText').empty();
+                $('#noteText').append(result);
+            }
+        });
+    }
+</script>

@@ -8,7 +8,6 @@
             console.log(result)
             $('#noteText').empty();
             $('#noteText').append(result);
-
         }
     });
 }

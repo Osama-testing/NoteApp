@@ -13,6 +13,7 @@ using AuthorizeAttribute = System.Web.Mvc.AuthorizeAttribute;
 using HttpGetAttribute = System.Web.Http.HttpGetAttribute;
 using System.Security.Claims;
 using Microsoft.AspNet.Identity.EntityFramework;
+using AutoMapper;
 
 namespace NoteApp.Controllers
 {
@@ -22,7 +23,7 @@ namespace NoteApp.Controllers
          readonly ApplicationDbContext dbContext = new ApplicationDbContext();
          public   int pageSize = 06;
          public int pageIndex = 1;
-         DateTime dateTime = DateTime.Now;
+         readonly DateTime dateTime = DateTime.Now;
         string userId;
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
@@ -38,7 +39,7 @@ namespace NoteApp.Controllers
         {
             //Get All lists of login User
             pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
-            var getLists = dbContext.ListModel.ToList().Where(x=>x.UserId==userId).OrderByDescending(d => d.List_Id).ToPagedList(pageIndex, pageSize);
+            var getLists = dbContext.ListModel.Where(x=>x.UserId==userId).OrderByDescending(d => d.List_Id).ToPagedList(pageIndex, pageSize);
             return PartialView("_GetLists", getLists);
         }
         [ValidateAntiForgeryToken]

@@ -8,14 +8,14 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
+using AutoMapper;
 namespace NoteApp.Controllers
 {
     public class NoteController : Controller
     {
         readonly ApplicationDbContext dbContext = new ApplicationDbContext();
         public int pageSize = 06;
-        DateTime dateTime = DateTime.Now;
+        readonly DateTime dateTime = DateTime.Now;
         public int pageIndex = 1;
         string userId;
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
@@ -50,6 +50,14 @@ namespace NoteApp.Controllers
                 //For List Notes 
                 NotesModel notesModel = new NotesModel();
                 notesModel.UserId = userId;
+                #region Automapper
+                //Mapper.Initialize(cfg =>
+                //{
+                //    cfg.CreateMap<ListViewModel, NotesModel>()
+                //     .ForMember(dt => dt.NoteDesciption, options => options.MapFrom(src =>src.NotesModel.NoteDesciption ));
+                //});
+                //NotesModel listView = Mapper.Map<NotesModel>(listViewModel);
+                #endregion              
                 notesModel.NoteDesciption = listViewModel.NotesModel.NoteDesciption;
                 notesModel.IsActive = true;
                 notesModel.List_Id = Id;
@@ -117,7 +125,7 @@ namespace NoteApp.Controllers
                         }
                     }
                 }
-                return RedirectToAction("ShowNotes", new { Id = Id });
+                return RedirectToAction("ShowNotes", new { id = Id });
             }
             return Content("Something going wrong !");
         }
@@ -143,8 +151,8 @@ namespace NoteApp.Controllers
             //Search Notes by Tags 
             int tagId = dbContext.TagModel.Where(x => x.TagItem == Tag).Select(x => x.TagId).FirstOrDefault();
             var noteId = dbContext.NoteTag
-                                  .Where(d => d.TagId == tagId).ToList()
-                                  .Select(d => (Int32)d.NoteId);
+                                  .Where(d => d.TagId == tagId)
+                                  .Select(d => (Int32)d.NoteId).ToList();
             List<NotesModel> notesModel = new List<NotesModel>();
             for (int j = 0; j < noteId.Count(); j++)
             {
